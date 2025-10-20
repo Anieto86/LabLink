@@ -1,4 +1,4 @@
-# BioTrack Node.js API
+# Lablink Node.js API
 
 A modern Node.js API built with TypeScript, Express, and Drizzle ORM for biological data tracking and management.
 
