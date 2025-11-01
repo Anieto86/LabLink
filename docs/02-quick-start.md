@@ -1,4 +1,4 @@
-# Quick Start Guide
+# Quick Start Guide.
 
 This guide will help you get LabLink running on your machine in less than 10 minutes.
 
