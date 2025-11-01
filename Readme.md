@@ -46,6 +46,14 @@ Edit `.env` and configure your database connection:
 DATABASE_URL="postgresql://username:password@localhost:5432/biotrack"
 ```
 
+Additionally, the project uses JWTs for authentication. Add a secret key for signing tokens:
+```
+# Secret used to sign JWTs (keep this secret and do NOT commit to version control)
+SECRET_KEY="your-long-random-secret-here"
+```
+
+The project uses the `jose` library for JSON Web Token (JWT) creation and verification (server-side).
+
 4. Set up the database:
 ```bash
 # Generate database migrations from schema
@@ -126,7 +134,7 @@ pnpm typecheck
 ## 📁 Project Structure
 
 ```
-biotrack-node/
+LabLink-node/
 ├── src/                    # Source code
 │   ├── app.ts             # Express application setup
 │   ├── server.ts          # Server entry point
