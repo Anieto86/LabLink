@@ -1,5 +1,7 @@
 # LabLink Wiki - Complete Documentation
 
+🌐 **Live Documentation**: [https://anieto86.github.io/LabLink/](https://anieto86.github.io/LabLink/)
+
 ## 📋 Table of Contents
 
 ### 🏠 [Getting Started & Overview](./01-overview.md)
