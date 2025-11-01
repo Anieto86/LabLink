@@ -1,14 +1,14 @@
 import { Router } from "express";
-import { requireAuth } from "../auth/requireAuth.js";
-import { userReadSchema } from "./users.dtos.js";
-import { toUserRead } from "./users.mapper.js";
+import { requireAuth } from "../auth/requireAuth";
+import { userReadSchema } from "./users.dtos";
+import { toUserRead } from "./users.mapper";
 import { UsersRepo } from "./users.repo.js";
 
 export const usersRouter = Router();
 
 usersRouter.get("/users/me", requireAuth, async (req, res, next) => {
 	try {
-		// biome-ignore lint/suspicious/noExplicitAny:
+		// biome-ignore lint/suspicious/noExplicitAny: Express request doesn't have typed user property
 		const { id } = (req as any).user as { id: number };
 
 		const row = await UsersRepo.findById(Number(id));
