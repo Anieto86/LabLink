@@ -3,8 +3,9 @@
 A modern Node.js API built with TypeScript, Express, and Drizzle ORM for biological data tracking and management.
 
 📘 **Documentation:**
-Find the full technical documentation in the
-[LabLink Wiki](https://github.com/Anieto86/LabLink-node/wiki)
+- 📖 [Complete Documentation](./docs/README.md) - Full technical guides
+- 🌐 [GitHub Wiki](https://github.com/Anieto86/LabLink/wiki) - Online documentation
+- 🚀 [Quick Start](./docs/02-quick-start.md) - Get started in 5 minutes
 
 
 ## 🚀 Features
