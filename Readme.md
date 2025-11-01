@@ -4,7 +4,7 @@ A modern Node.js API built with TypeScript, Express, and Drizzle ORM for biologi
 
 📘 **Documentation:**
 Find the full technical documentation in the
-[LabLink Wiki](https://github.com/<tu-user>/lablink-backend/wiki)
+[LabLink Wiki](https://github.com/Anieto86/lablink-backend/wiki)
 
 
 ## 🚀 Features
