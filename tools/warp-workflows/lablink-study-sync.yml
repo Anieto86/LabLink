@@ -1,0 +1,216 @@
+# LabLink Study Sync Workflow
+# Warp workflow para sincronizar LabLink con Obsidian para estudios
+
+name: LabLink Study Sync
+description: Sincroniza automáticamente LabLink con Obsidian para sesiones de estudio
+tags: [lablink, obsidian, sync, study]
+
+# Configuración de rutas
+LABLINK_PROJECT="/c/Users/alvar/Documents/LabLink-node"
+OBSIDIAN_VAULT="/c/Users/alvar/Documents/Obsidian-syc-git/Projects/LabLink"
+
+# Comando principal de sincronización
+sync_all:
+  command: |
+    echo "🔄 Iniciando sincronización LabLink → Obsidian..."
+
+    # Navegar al proyecto
+    cd "$LABLINK_PROJECT"
+
+    # Verificar que estamos en el directorio correcto
+    if [ ! -f "package.json" ]; then
+        echo "❌ Error: No estamos en el directorio de LabLink"
+        exit 1
+    fi
+
+    # Obtener últimos cambios del repositorio
+    echo "📥 Obteniendo últimos cambios..."
+    git fetch origin
+    git pull origin main
+
+    # Ejecutar script de sincronización
+    echo "🔄 Sincronizando archivos..."
+    bash scripts/auto-sync-to-obsidian.sh
+
+    # Verificar que Obsidian tiene los archivos
+    if [ -d "$OBSIDIAN_VAULT/src" ] && [ -d "$OBSIDIAN_VAULT/docs" ]; then
+        echo "✅ Sincronización completada exitosamente!"
+        echo "📁 Archivos disponibles en: $OBSIDIAN_VAULT"
+        echo "🎯 Listo para estudiar en Obsidian!"
+    else
+        echo "❌ Error en la sincronización"
+        exit 1
+    fi
+
+# Sincronización rápida (solo archivos modificados)
+quick_sync:
+  command: |
+    echo "⚡ Sincronización rápida..."
+    cd "$LABLINK_PROJECT"
+
+    # Solo sincronizar si hay cambios
+    if [ -n "$(git status --porcelain)" ]; then
+        echo "📝 Cambios detectados, sincronizando..."
+        bash scripts/auto-sync-to-obsidian.sh
+    else
+        echo "✅ No hay cambios para sincronizar"
+    fi
+
+# Iniciar sesión de estudio
+start_study:
+  command: |
+    echo "📚 Iniciando sesión de estudio LabLink..."
+
+    # Sincronizar primero
+    cd "$LABLINK_PROJECT"
+    bash scripts/auto-sync-to-obsidian.sh
+
+    # Abrir Obsidian (si está instalado)
+    if command -v obsidian &> /dev/null; then
+        echo "🔓 Abriendo Obsidian..."
+        obsidian "$OBSIDIAN_VAULT"
+    else
+        echo "📍 Obsidian vault listo en: $OBSIDIAN_VAULT"
+    fi
+
+    # Mostrar estado del proyecto
+    echo "📊 Estado del proyecto:"
+    echo "  📁 Source files: $(find src -name '*.ts' | wc -l) archivos TypeScript"
+    echo "  📖 Documentation: $(find docs -name '*.md' | wc -l) archivos Markdown"
+    echo "  📝 Last commit: $(git log -1 --pretty=format:'%h - %s (%cr)')"
+
+# Limpiar y resetear sincronización
+reset_sync:
+  command: |
+    echo "🧹 Limpiando y reseteando sincronización..."
+
+    # Limpiar directorio de Obsidian
+    if [ -d "$OBSIDIAN_VAULT" ]; then
+        echo "🗑️ Limpiando directorio de Obsidian..."
+        rm -rf "$OBSIDIAN_VAULT/src" "$OBSIDIAN_VAULT/docs"
+        rm -f "$OBSIDIAN_VAULT/package.json" "$OBSIDIAN_VAULT/Project-README.md"
+    fi
+
+    # Sincronización completa
+    cd "$LABLINK_PROJECT"
+    bash scripts/auto-sync-to-obsidian.sh
+
+    echo "✅ Reset completado!"
+
+# Verificar estado de sincronización
+check_sync:
+  command: |
+    echo "🔍 Verificando estado de sincronización..."
+
+    cd "$LABLINK_PROJECT"
+
+    # Verificar última modificación en LabLink
+    LABLINK_LAST=$(find src docs -type f -exec stat -c %Y {} \; | sort -n | tail -1)
+
+    # Verificar última modificación en Obsidian
+    if [ -d "$OBSIDIAN_VAULT/src" ]; then
+        OBSIDIAN_LAST=$(find "$OBSIDIAN_VAULT/src" "$OBSIDIAN_VAULT/docs" -type f -exec stat -c %Y {} \; 2>/dev/null | sort -n | tail -1)
+    else
+        OBSIDIAN_LAST=0
+    fi
+
+    echo "📊 Estado de sincronización:"
+    echo "  🏠 LabLink último cambio: $(date -d @$LABLINK_LAST '+%Y-%m-%d %H:%M:%S')"
+    echo "  🧠 Obsidian último sync: $(date -d @$OBSIDIAN_LAST '+%Y-%m-%d %H:%M:%S')"
+
+    if [ $LABLINK_LAST -gt $OBSIDIAN_LAST ]; then
+        echo "  ⚠️ Obsidian necesita actualización"
+        echo "  💡 Ejecuta: warp run sync_all"
+    else
+        echo "  ✅ Obsidian está actualizado"
+    fi
+
+# Mostrar estadísticas del proyecto
+stats:
+  command: |
+    cd "$LABLINK_PROJECT"
+
+    echo "📊 Estadísticas de LabLink:"
+    echo ""
+    echo "📁 Estructura del proyecto:"
+    echo "  TypeScript files: $(find src -name '*.ts' | wc -l)"
+    echo "  JavaScript files: $(find src -name '*.js' | wc -l)"
+    echo "  Test files: $(find . -name '*.test.*' | wc -l)"
+    echo "  Documentation: $(find docs -name '*.md' | wc -l)"
+    echo ""
+    echo "📈 Git stats:"
+    echo "  Total commits: $(git rev-list --all --count)"
+    echo "  Contributors: $(git shortlog -sn | wc -l)"
+    echo "  Last commit: $(git log -1 --pretty=format:'%h - %s (%cr)')"
+    echo ""
+    echo "📦 Dependencies:"
+    echo "  Production: $(cat package.json | jq '.dependencies | length')"
+    echo "  Development: $(cat package.json | jq '.devDependencies | length')"
+
+# Workflow completo de estudio
+full_study_workflow:
+  command: |
+    echo "🎓 Iniciando workflow completo de estudio LabLink..."
+
+    # 1. Sincronizar todo
+    echo "🔄 Paso 1: Sincronización..."
+    cd "$LABLINK_PROJECT"
+    git pull origin main
+    bash scripts/auto-sync-to-obsidian.sh
+
+    # 2. Mostrar estadísticas
+    echo ""
+    echo "📊 Paso 2: Estado del proyecto..."
+    echo "  📝 Commits hoy: $(git log --since='today' --oneline | wc -l)"
+    echo "  📁 Archivos modificados: $(git status --porcelain | wc -l)"
+    echo "  🏷️ Última versión: $(git describe --tags --abbrev=0 2>/dev/null || echo 'No tags')"
+
+    # 3. Preparar sesión de estudio
+    echo ""
+    echo "🎯 Paso 3: Preparando sesión de estudio..."
+
+    # Crear nota de sesión automática
+    SESSION_DATE=$(date '+%Y-%m-%d')
+    SESSION_FILE="$OBSIDIAN_VAULT/Session Notes/Study Session $SESSION_DATE.md"
+
+    if [ ! -f "$SESSION_FILE" ]; then
+        cat > "$SESSION_FILE" << EOF
+---
+tags: [lablink, study-session, $(date '+%Y-%m-%d')]
+created: $(date '+%Y-%m-%d %H:%M:%S')
+type: study-session
+---
+
+# 📚 LabLink Study Session - $SESSION_DATE
+
+## 🎯 Today's Goals
+- [ ]
+- [ ]
+- [ ]
+
+## 📊 Project Status
+- **Last Commit**: $(git log -1 --pretty=format:'%h - %s (%cr)')
+- **Files Synced**: $(date '+%H:%M:%S')
+- **Study Start**: $(date '+%H:%M:%S')
+
+## 🔍 Focus Areas
+- [ ] Architecture analysis
+- [ ] Code flow tracing
+- [ ] Database schema study
+- [ ] API endpoint testing
+
+## 📝 Notes
+
+
+## 🎯 Next Session
+- [ ]
+- [ ]
+
+EOF
+        echo "📝 Nota de sesión creada: $SESSION_FILE"
+    fi
+
+    echo ""
+    echo "✅ Workflow completo listo!"
+    echo "🎯 Siguiente paso: Abrir Obsidian y comenzar a estudiar"
+    echo "📍 Vault: $OBSIDIAN_VAULT"

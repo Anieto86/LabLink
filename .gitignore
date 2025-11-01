@@ -108,3 +108,9 @@ Thumbs.db
 test-results/
 playwright-report/
 playwright/.cache/
+
+# Tools and temporary files
+tools/obsidian-integration/temp/
+tools/warp-workflows/temp/
+*.tmp
+src/test-file.js

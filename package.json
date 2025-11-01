@@ -17,7 +17,9 @@
     "db:pull": "drizzle-kit introspect",
     "format": "biome format --write .",
     "lint": "biome lint .",
-    "check": "biome check ."
+    "check": "biome check .",
+    "obsidian:sync": "bash scripts/auto-sync-to-obsidian.sh",
+    "obsidian:watch": "nodemon --watch src --watch docs --exec 'bash scripts/auto-sync-to-obsidian.sh'"
   },
   "keywords": [],
   "author": "",
