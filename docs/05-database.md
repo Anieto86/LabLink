@@ -1,53 +1,53 @@
-# Base de Datos
+# Database
 
-Esta guía cubre todo lo relacionado con la base de datos PostgreSQL, Drizzle ORM, migraciones y administración de datos.
+This guide covers everything related to PostgreSQL database, Drizzle ORM, migrations, and data management.
 
-## 🗄️ Configuración de Base de Datos
+## 🗄️ Database Configuration
 
 ### **PostgreSQL Setup**
 ```bash
-# Instalar PostgreSQL (Ubuntu/Debian)
+# Install PostgreSQL (Ubuntu/Debian)
 sudo apt update
 sudo apt install postgresql postgresql-contrib
 
-# Instalar PostgreSQL (macOS con Homebrew)
+# Install PostgreSQL (macOS with Homebrew)
 brew install postgresql
 brew services start postgresql
 
-# Instalar PostgreSQL (Windows)
-# Descargar desde: https://www.postgresql.org/download/windows/
+# Install PostgreSQL (Windows)
+# Download from: https://www.postgresql.org/download/windows/
 ```
 
-### **Crear Base de Datos**
+### **Create Database**
 ```sql
--- Conectar como superuser
+-- Connect as superuser
 psql -U postgres
 
--- Crear base de datos para LabLink
+-- Create database for LabLink
 CREATE DATABASE biotrack_db;
 
--- Crear usuario específico (opcional pero recomendado)
+-- Create specific user (optional but recommended)
 CREATE USER lablink_user WITH ENCRYPTED PASSWORD 'secure_password_here';
 
--- Dar permisos al usuario
+-- Grant permissions to user
 GRANT ALL PRIVILEGES ON DATABASE biotrack_db TO lablink_user;
 GRANT USAGE ON SCHEMA public TO lablink_user;
 GRANT CREATE ON SCHEMA public TO lablink_user;
 
--- Verificar conexión
-\\c biotrack_db lablink_user
-\\dt  -- Listar tablas (debería estar vacío inicialmente)
+-- Verify connection
+\c biotrack_db lablink_user
+\dt  -- List tables (should be empty initially)
 ```
 
-### **Variables de Entorno**
+### **Environment Variables**
 ```env
 # .env
 DATABASE_URL="postgresql://lablink_user:secure_password_here@localhost:5432/biotrack_db"
 
-# Para desarrollo local con postgres default user:
+# For local development with default postgres user:
 DATABASE_URL="postgresql://postgres:your_password@localhost:5432/biotrack_db"
 
-# Para producción con SSL:
+# For production with SSL:
 DATABASE_URL="postgresql://user:pass@host:5432/db?sslmode=require"
 ```
 
@@ -55,14 +55,14 @@ DATABASE_URL="postgresql://user:pass@host:5432/db?sslmode=require"
 
 ## 🏗️ Drizzle ORM
 
-### **¿Por qué Drizzle?**
-- **Type Safety**: Queries 100% type-safe en compile time
-- **SQL-like**: Sintaxis similar a SQL, fácil de aprender
-- **Zero Runtime**: Sin overhead en runtime, solo types
-- **Migration Management**: Control total sobre migraciones
-- **Performance**: Queries optimizadas sin abstraction penalty
+### **Why Drizzle?**
+- **Type Safety**: 100% type-safe queries at compile time
+- **SQL-like**: Similar syntax to SQL, easy to learn
+- **Zero Runtime**: No runtime overhead, only types
+- **Migration Management**: Full control over migrations
+- **Performance**: Optimized queries without abstraction penalty
 
-### **Configuración de Drizzle**
+### **Drizzle Configuration**
 
 #### `drizzle.config.ts`
 ```typescript
@@ -87,18 +87,18 @@ import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 import { env } from '../../config/env';
 
-// Configurar cliente PostgreSQL
+// Configure PostgreSQL client
 const client = postgres(env.DATABASE_URL, {
-  max: 10,                    // Pool de conexiones
-  idle_timeout: 20,           // Timeout para conexiones idle
-  connect_timeout: 10,        // Timeout para conectar
-  prepare: false,             // Usar prepared statements
+  max: 10,                    // Connection pool
+  idle_timeout: 20,           // Timeout for idle connections
+  connect_timeout: 10,        // Connection timeout
+  prepare: false,             // Use prepared statements
 });
 
-// Crear instancia de Drizzle
+// Create Drizzle instance
 export const db = drizzle(client);
 
-// Función para cerrar conexiones (útil en tests)
+// Function to close connections (useful in tests)
 export async function closeDatabase() {
   await client.end();
 }
@@ -108,18 +108,18 @@ export async function closeDatabase() {
 
 ## 📋 Schema Definition
 
-### **Esquema Actual**
+### **Current Schema**
 
 #### `src/infra/db/schema.ts`
 ```typescript
-import {
-  pgTable,
-  serial,
-  text,
-  varchar,
-  boolean,
+import { 
+  pgTable, 
+  serial, 
+  text, 
+  varchar, 
+  boolean, 
   timestamp,
-  pgEnum
+  pgEnum 
 } from 'drizzle-orm/pg-core';
 
 // Enums
@@ -137,41 +137,41 @@ export const usersTable = pgTable('users', {
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
 
-// Indexes para performance
+// Indexes for performance
 export const emailIndex = pgIndex('email_idx').on(usersTable.email);
 export const roleIndex = pgIndex('role_idx').on(usersTable.role);
 
-// Export types para TypeScript
+// Export types for TypeScript
 export type User = typeof usersTable.$inferSelect;
 export type NewUser = typeof usersTable.$inferInsert;
 ```
 
-### **Agregar Nueva Tabla**
+### **Adding New Table**
 ```typescript
-// Ejemplo: tabla de laboratorios
+// Example: laboratories table
 export const laboratoriesTable = pgTable('laboratories', {
   id: serial('id').primaryKey(),
   name: varchar('name', { length: 100 }).notNull(),
   description: text('description'),
   location: varchar('location', { length: 255 }),
   isActive: boolean('is_active').default(true).notNull(),
-
-  // Foreign key a users (director del laboratorio)
+  
+  // Foreign key to users (laboratory director)
   directorId: integer('director_id').references(() => usersTable.id),
-
+  
   // Timestamps
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
 
-// Relaciones
+// Relations
 export const usersRelations = relations(usersTable, ({ many, one }) => ({
-  // Un usuario puede dirigir muchos laboratorios
+  // A user can direct many laboratories
   directedLaboratories: many(laboratoriesTable),
 }));
 
 export const laboratoriesRelations = relations(laboratoriesTable, ({ one }) => ({
-  // Un laboratorio tiene un director
+  // A laboratory has one director
   director: one(usersTable, {
     fields: [laboratoriesTable.directorId],
     references: [usersTable.id],
@@ -181,13 +181,13 @@ export const laboratoriesRelations = relations(laboratoriesTable, ({ one }) => (
 
 ---
 
-## 🔄 Migraciones
+## 🔄 Migrations
 
-### **Workflow de Migraciones**
+### **Migration Workflow**
 
-#### 1. **Modificar Schema**
+#### 1. **Modify Schema**
 ```typescript
-// Cambio en src/infra/db/schema.ts
+// Change in src/infra/db/schema.ts
 export const usersTable = pgTable('users', {
   id: serial('id').primaryKey(),
   name: varchar('name', { length: 50 }).notNull(),
@@ -195,95 +195,95 @@ export const usersTable = pgTable('users', {
   password: text('password').notNull(),
   role: roleEnum('role').default('USER').notNull(),
   isActive: boolean('is_active').default(true).notNull(),
-
-  // ✅ NUEVO: campo agregado
+  
+  // ✅ NEW: added field
   phoneNumber: varchar('phone_number', { length: 20 }),
-
+  
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
 ```
 
-#### 2. **Generar Migración**
+#### 2. **Generate Migration**
 ```bash
 pnpm db:gen
 ```
 
-Esto crea un archivo en `drizzle/migrations/`:
+This creates a file in `drizzle/migrations/`:
 ```sql
 -- drizzle/migrations/0001_add_phone_number.sql
 ALTER TABLE "users" ADD COLUMN "phone_number" varchar(20);
 ```
 
-#### 3. **Revisar Migración**
+#### 3. **Review Migration**
 ```bash
-# Revisar el SQL generado
+# Review generated SQL
 cat drizzle/migrations/0001_add_phone_number.sql
 
-# Verificar que sea correcto antes de aplicar
+# Verify it's correct before applying
 ```
 
-#### 4. **Aplicar Migración**
+#### 4. **Apply Migration**
 ```bash
 pnpm db:migrate
 ```
 
-#### 5. **Verificar en Base de Datos**
+#### 5. **Verify in Database**
 ```bash
 pnpm db:studio
-# O conectar directamente:
+# Or connect directly:
 psql -d biotrack_db -c "\\d users"
 ```
 
-### **Migraciones Complejas**
+### **Complex Migrations**
 
-#### **Agregar Columna con Datos**
+#### **Add Column with Data**
 ```sql
--- Migración manual para datos complejos
+-- Manual migration for complex data
 -- drizzle/migrations/0002_populate_phone_numbers.sql
 
--- 1. Agregar columna
+-- 1. Add column
 ALTER TABLE "users" ADD COLUMN "phone_number" varchar(20);
 
--- 2. Poblar datos existentes (ejemplo)
-UPDATE "users"
-SET "phone_number" = '+1-555-0000'
+-- 2. Populate existing data (example)
+UPDATE "users" 
+SET "phone_number" = '+1-555-0000' 
 WHERE "phone_number" IS NULL AND "role" = 'ADMIN';
 
--- 3. Hacer NOT NULL si es necesario
+-- 3. Make NOT NULL if necessary
 -- ALTER TABLE "users" ALTER COLUMN "phone_number" SET NOT NULL;
 ```
 
-#### **Renombrar Columna**
+#### **Rename Column**
 ```sql
--- Drizzle no maneja renames automáticamente, hacerlo manual:
+-- Drizzle doesn't handle renames automatically, do it manually:
 ALTER TABLE "users" RENAME COLUMN "is_active" TO "active";
 ```
 
-#### **Migración de Datos**
+#### **Data Migration**
 ```sql
--- Migrar datos entre tablas
+-- Migrate data between tables
 INSERT INTO "laboratories" ("name", "director_id", "created_at")
-SELECT
+SELECT 
   CONCAT("name", ' Lab') as "name",
-  "id" as "director_id",
+  "id" as "director_id", 
   NOW() as "created_at"
-FROM "users"
+FROM "users" 
 WHERE "role" = 'ADMIN';
 ```
 
-### **Rollback de Migraciones**
+### **Migration Rollback**
 ```bash
-# Drizzle no tiene rollback automático
-# Estrategias:
+# Drizzle doesn't have automatic rollback
+# Strategies:
 
-# 1. Backup antes de migrar
+# 1. Backup before migrating
 pg_dump biotrack_db > backup_before_migration.sql
 
-# 2. Migración manual reversa
+# 2. Manual reverse migration
 psql -d biotrack_db -f rollback_migration.sql
 
-# 3. Restaurar desde backup
+# 3. Restore from backup
 psql -d biotrack_db < backup_before_migration.sql
 ```
 
@@ -291,41 +291,41 @@ psql -d biotrack_db < backup_before_migration.sql
 
 ## 🔍 Drizzle Studio
 
-### **Iniciar Drizzle Studio**
+### **Start Drizzle Studio**
 ```bash
 pnpm db:studio
 ```
 
-Abre GUI en: `https://local.drizzle.studio`
+Opens GUI at: `https://local.drizzle.studio`
 
-### **Funcionalidades de Studio**
-- 📊 **Visualizar tablas** y datos en tiempo real
-- ✏️ **Editar datos** directamente desde la interfaz
-- 🔍 **Ejecutar queries** SQL personalizadas
-- 📈 **Ver relaciones** entre tablas
-- 📋 **Exportar datos** en diferentes formatos
-- 🗂️ **Navegar schema** y estructura de DB
+### **Studio Features**
+- 📊 **View tables** and data in real time
+- ✏️ **Edit data** directly from interface
+- 🔍 **Execute custom SQL** queries
+- 📈 **View relationships** between tables
+- 📋 **Export data** in different formats
+- 🗂️ **Navigate schema** and DB structure
 
 ---
 
-## 📝 Queries con Drizzle
+## 📝 Queries with Drizzle
 
-### **Queries Básicas**
+### **Basic Queries**
 
 #### **Select**
 ```typescript
-// Todos los usuarios
+// All users
 const allUsers = await db.select().from(usersTable);
 
-// Select específico
+// Specific select
 const userEmails = await db
-  .select({
-    id: usersTable.id,
-    email: usersTable.email
+  .select({ 
+    id: usersTable.id, 
+    email: usersTable.email 
   })
   .from(usersTable);
 
-// Con condiciones
+// With conditions
 import { eq, and, or, like, gt } from 'drizzle-orm';
 
 const activeAdmins = await db
@@ -338,7 +338,7 @@ const activeAdmins = await db
     )
   );
 
-// Con límites y ordenamiento
+// With limits and ordering
 const recentUsers = await db
   .select()
   .from(usersTable)
@@ -349,7 +349,7 @@ const recentUsers = await db
 
 #### **Insert**
 ```typescript
-// Insert único
+// Single insert
 const [newUser] = await db
   .insert(usersTable)
   .values({
@@ -360,7 +360,7 @@ const [newUser] = await db
   })
   .returning();
 
-// Insert múltiple
+// Multiple insert
 const newUsers = await db
   .insert(usersTable)
   .values([
@@ -372,17 +372,17 @@ const newUsers = await db
 
 #### **Update**
 ```typescript
-// Update con condición
+// Update with condition
 const [updatedUser] = await db
   .update(usersTable)
-  .set({
+  .set({ 
     name: 'New Name',
     updatedAt: new Date()
   })
   .where(eq(usersTable.id, 1))
   .returning();
 
-// Update múltiple
+// Multiple update
 await db
   .update(usersTable)
   .set({ isActive: false })
@@ -391,18 +391,18 @@ await db
 
 #### **Delete**
 ```typescript
-// Delete con condición
+// Delete with condition
 await db
   .delete(usersTable)
   .where(eq(usersTable.id, 1));
 
-// Delete múltiple
+// Multiple delete
 await db
   .delete(usersTable)
   .where(eq(usersTable.isActive, false));
 ```
 
-### **Queries Avanzadas**
+### **Advanced Queries**
 
 #### **Joins**
 ```typescript
@@ -416,7 +416,7 @@ const usersWithLabs = await db
   })
   .from(usersTable)
   .innerJoin(
-    laboratoriesTable,
+    laboratoriesTable, 
     eq(usersTable.id, laboratoriesTable.directorId)
   );
 
@@ -430,11 +430,11 @@ const allUsersWithOptionalLabs = await db
   );
 ```
 
-#### **Agregaciones**
+#### **Aggregations**
 ```typescript
 import { count, sum, avg, max, min } from 'drizzle-orm';
 
-// Contar usuarios por rol
+// Count users by role
 const userCounts = await db
   .select({
     role: usersTable.role,
@@ -443,7 +443,7 @@ const userCounts = await db
   .from(usersTable)
   .groupBy(usersTable.role);
 
-// Estadísticas
+// Statistics
 const stats = await db
   .select({
     totalUsers: count(),
@@ -454,7 +454,7 @@ const stats = await db
 
 #### **Subqueries**
 ```typescript
-// Usuarios que dirigen laboratorios
+// Users who direct laboratories
 const labDirectors = await db
   .select()
   .from(usersTable)
@@ -466,16 +466,16 @@ const labDirectors = await db
   );
 ```
 
-#### **Transacciones**
+#### **Transactions**
 ```typescript
 await db.transaction(async (tx) => {
-  // 1. Crear usuario
+  // 1. Create user
   const [user] = await tx
     .insert(usersTable)
     .values({ name: 'Director', email: 'director@lab.com', password: 'hash' })
     .returning();
 
-  // 2. Crear laboratorio con ese usuario como director
+  // 2. Create laboratory with that user as director
   await tx
     .insert(laboratoriesTable)
     .values({
@@ -484,30 +484,30 @@ await db.transaction(async (tx) => {
       location: 'Building A'
     });
 
-  // Si cualquier operación falla, toda la transacción se revierte
+  // If any operation fails, entire transaction is reverted
 });
 ```
 
 ---
 
-## 🚀 Performance y Optimización
+## 🚀 Performance and Optimization
 
-### **Índices**
+### **Indexes**
 ```typescript
-// En schema.ts
+// In schema.ts
 import { index, uniqueIndex } from 'drizzle-orm/pg-core';
 
-// Índice simple
+// Simple index
 export const emailIndex = index('email_idx').on(usersTable.email);
 
-// Índice único
+// Unique index
 export const uniqueEmailIndex = uniqueIndex('unique_email_idx').on(usersTable.email);
 
-// Índice compuesto
+// Composite index
 export const roleActiveIndex = index('role_active_idx')
   .on(usersTable.role, usersTable.isActive);
 
-// Índice parcial
+// Partial index
 export const activeUsersIndex = index('active_users_idx')
   .on(usersTable.email)
   .where(eq(usersTable.isActive, true));
@@ -515,21 +515,21 @@ export const activeUsersIndex = index('active_users_idx')
 
 ### **Query Optimization**
 ```typescript
-// ✅ BUENO: Select solo campos necesarios
+// ✅ GOOD: Select only necessary fields
 const users = await db
   .select({ id: usersTable.id, name: usersTable.name })
   .from(usersTable);
 
-// ❌ MALO: Select *
+// ❌ BAD: Select *
 const users = await db.select().from(usersTable);
 
-// ✅ BUENO: Usar límites
+// ✅ GOOD: Use limits
 const users = await db
   .select()
   .from(usersTable)
   .limit(10);
 
-// ✅ BUENO: Usar prepared statements para queries repetitivas
+// ✅ GOOD: Use prepared statements for repetitive queries
 const getUserById = db
   .select()
   .from(usersTable)
@@ -543,19 +543,19 @@ const user = await getUserById.execute(userId);
 ```typescript
 // src/infra/db/client.ts
 const client = postgres(env.DATABASE_URL, {
-  max: 20,                    // Máximo 20 conexiones
-  idle_timeout: 30,           // Cerrar conexiones idle después de 30s
-  connect_timeout: 10,        // Timeout de conexión 10s
-  prepare: true,              // Usar prepared statements
+  max: 20,                    // Maximum 20 connections
+  idle_timeout: 30,           // Close idle connections after 30s
+  connect_timeout: 10,        // Connection timeout 10s
+  prepare: true,              // Use prepared statements
   transform: {
-    undefined: null,          // Convertir undefined a null
+    undefined: null,          // Convert undefined to null
   },
 });
 ```
 
 ---
 
-## 🧪 Testing con Base de Datos
+## 🧪 Testing with Database
 
 ### **Test Database Setup**
 ```typescript
@@ -564,10 +564,10 @@ import { db, closeDatabase } from '../../infra/db/client';
 import { usersTable } from '../../infra/db/schema';
 
 export async function setupTestDatabase() {
-  // Limpiar todas las tablas
+  // Clean all tables
   await db.delete(usersTable);
-
-  // Insertar datos de prueba
+  
+  // Insert test data
   await db.insert(usersTable).values([
     {
       name: 'Test User',
@@ -576,7 +576,7 @@ export async function setupTestDatabase() {
       role: 'USER'
     },
     {
-      name: 'Test Admin',
+      name: 'Test Admin', 
       email: 'admin@example.com',
       password: 'hashedPassword',
       role: 'ADMIN'
@@ -589,7 +589,7 @@ export async function teardownTestDatabase() {
 }
 ```
 
-### **Test con Transacciones**
+### **Testing with Transactions**
 ```typescript
 // src/test/unit/repositories/users.repo.test.ts
 import { describe, it, expect, beforeEach, afterAll } from 'vitest';
@@ -617,46 +617,46 @@ describe('UsersRepo', () => {
 
 ---
 
-## 🔧 Mantenimiento
+## 🔧 Maintenance
 
-### **Backup y Restore**
+### **Backup and Restore**
 ```bash
 # Backup
 pg_dump biotrack_db > backup_$(date +%Y%m%d_%H%M%S).sql
 
-# Backup comprimido
+# Compressed backup
 pg_dump biotrack_db | gzip > backup_$(date +%Y%m%d_%H%M%S).sql.gz
 
 # Restore
 psql biotrack_db < backup_20251101_120000.sql
 
-# Restore comprimido
+# Restore compressed
 gunzip -c backup_20251101_120000.sql.gz | psql biotrack_db
 ```
 
-### **Monitoreo**
+### **Monitoring**
 ```sql
--- Ver conexiones activas
+-- View active connections
 SELECT count(*) FROM pg_stat_activity WHERE datname = 'biotrack_db';
 
--- Ver queries lentas
-SELECT query, mean_exec_time, calls
-FROM pg_stat_statements
-ORDER BY mean_exec_time DESC
+-- View slow queries
+SELECT query, mean_exec_time, calls 
+FROM pg_stat_statements 
+ORDER BY mean_exec_time DESC 
 LIMIT 10;
 
--- Ver tamaño de tablas
-SELECT
+-- View table sizes
+SELECT 
   schemaname,
   tablename,
   pg_size_pretty(pg_relation_size(schemaname||'.'||tablename)) as size
-FROM pg_tables
+FROM pg_tables 
 WHERE schemaname = 'public'
 ORDER BY pg_relation_size(schemaname||'.'||tablename) DESC;
 ```
 
 ---
 
-## ➡️ Siguiente Paso
+## ➡️ Next Step
 
-Continúa con [**Autenticación y Seguridad**](./06-authentication.md) para entender el sistema JWT y las medidas de seguridad implementadas.
+Continue with [**Authentication & Security**](./06-authentication.md) to understand the JWT system and implemented security measures.

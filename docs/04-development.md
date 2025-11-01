@@ -1,17 +1,17 @@
-# Guía de Desarrollo
+# Development Guide
 
-Esta guía cubre el workflow diario de desarrollo, herramientas, comandos y mejores prácticas.
+This guide covers daily development workflow, tools, commands, and best practices.
 
-## 🛠️ Setup del Entorno de Desarrollo
+## 🛠️ Development Environment Setup
 
-### **VS Code (Recomendado)**
+### **VS Code (Recommended)**
 
-#### Extensiones Esenciales:
+#### Essential Extensions:
 ```json
 // .vscode/extensions.json
 {
   "recommendations": [
-    "biomejs.biome",              // Linting y formatting
+    "biomejs.biome",              // Linting and formatting
     "bradlc.vscode-tailwindcss",  // TypeScript IntelliSense
     "ms-vscode.vscode-typescript-next",
     "ms-vscode.vscode-json",
@@ -20,7 +20,7 @@ Esta guía cubre el workflow diario de desarrollo, herramientas, comandos y mejo
 }
 ```
 
-#### Configuración de VS Code:
+#### VS Code Configuration:
 ```json
 // .vscode/settings.json
 {
@@ -34,11 +34,11 @@ Esta guía cubre el workflow diario de desarrollo, herramientas, comandos y mejo
 }
 ```
 
-### **Configuración de Terminal**
+### **Terminal Configuration**
 
-#### Aliases Útiles:
+#### Useful Aliases:
 ```bash
-# .bashrc o .zshrc
+# .bashrc or .zshrc
 alias ll="ls -la"
 alias pn="pnpm"
 alias pd="pnpm dev"
@@ -46,120 +46,120 @@ alias pt="pnpm test"
 alias pc="pnpm check"
 alias pb="pnpm build"
 
-# Comandos de DB frecuentes
+# Frequent DB commands
 alias dbgen="pnpm db:gen"
 alias dbmig="pnpm db:migrate"
 alias dbstudio="pnpm db:studio"
 ```
 
-## ⚡ Workflow de Desarrollo Diario
+## ⚡ Daily Development Workflow
 
-### **1. Arranque del Día**
+### **1. Start of Day**
 ```bash
-# Actualizar dependencias
+# Update dependencies
 pnpm install
 
-# Verificar estado de la DB
+# Check DB status
 pnpm db:studio
 
-# Ejecutar tests para verificar que todo está OK
+# Run tests to verify everything is OK
 pnpm test
 
-# Iniciar desarrollo
+# Start development
 pnpm dev
 ```
 
-### **2. Desarrollo de Feature**
+### **2. Feature Development**
 ```bash
-# Crear rama para feature
-git checkout -b feature/nueva-funcionalidad
+# Create feature branch
+git checkout -b feature/new-functionality
 
-# Desarrollo iterativo con hot reload
+# Iterative development with hot reload
 pnpm dev
 
-# Verificar calidad de código frecuentemente
+# Check code quality frequently
 pnpm check
 ```
 
-### **3. Antes de Commit**
+### **3. Before Commit**
 ```bash
-# Verificar todo antes de commit
+# Check everything before commit
 pnpm check      # Format + lint + typecheck
-pnpm test       # Ejecutar tests
-pnpm build      # Verificar que build funciona
+pnpm test       # Run tests
+pnpm build      # Verify build works
 ```
 
-### **4. Testing Continuo**
+### **4. Continuous Testing**
 ```bash
-# Tests en modo watch durante desarrollo
+# Tests in watch mode during development
 pnpm test:watch
 
-# Solo tests de un módulo específico
+# Only tests for specific module
 pnpm test auth
 
-# Tests con coverage
+# Tests with coverage
 pnpm test --coverage
 ```
 
-## 📋 Comandos Principales
+## 📋 Main Commands
 
-### **Desarrollo**
-| Comando | Descripción | Cuándo Usar |
+### **Development**
+| Command | Description | When to Use |
 |---------|-------------|-------------|
-| `pnpm dev` | Servidor con hot reload | Desarrollo activo |
-| `pnpm build` | Build para producción | Antes de deploy |
-| `pnpm start` | Servidor de producción | Testing de producción |
-| `pnpm check` | Format + lint + types | Antes de cada commit |
+| `pnpm dev` | Server with hot reload | Active development |
+| `pnpm build` | Production build | Before deploy |
+| `pnpm start` | Production server | Production testing |
+| `pnpm check` | Format + lint + types | Before each commit |
 
-### **Base de Datos**
-| Comando | Descripción | Cuándo Usar |
+### **Database**
+| Command | Description | When to Use |
 |---------|-------------|-------------|
-| `pnpm db:gen` | Generar migraciones | Después de cambiar schema |
-| `pnpm db:migrate` | Aplicar migraciones | Después de generar |
-| `pnpm db:studio` | GUI de base de datos | Inspeccionar datos |
-| `pnpm db:pull` | Introspeccionar DB | Sincronizar schema existente |
+| `pnpm db:gen` | Generate migrations | After changing schema |
+| `pnpm db:migrate` | Apply migrations | After generating |
+| `pnpm db:studio` | Database GUI | Inspect data |
+| `pnpm db:pull` | Introspect DB | Sync existing schema |
 
 ### **Testing**
-| Comando | Descripción | Cuándo Usar |
+| Command | Description | When to Use |
 |---------|-------------|-------------|
-| `pnpm test` | Ejecutar todos los tests | CI/CD y verificación |
-| `pnpm test:watch` | Tests en modo watch | Desarrollo TDD |
-| `pnpm test auth` | Tests de módulo específico | Testing focused |
+| `pnpm test` | Run all tests | CI/CD and verification |
+| `pnpm test:watch` | Tests in watch mode | TDD development |
+| `pnpm test auth` | Specific module tests | Focused testing |
 
-### **Calidad de Código**
-| Comando | Descripción | Cuándo Usar |
+### **Code Quality**
+| Command | Description | When to Use |
 |---------|-------------|-------------|
-| `pnpm format` | Formatear código | Auto en save (VS Code) |
-| `pnpm lint` | Linting sin fix | CI/CD |
-| `pnpm typecheck` | Verificar tipos TS | CI/CD y pre-commit |
+| `pnpm format` | Format code | Auto on save (VS Code) |
+| `pnpm lint` | Linting without fix | CI/CD |
+| `pnpm typecheck` | Check TS types | CI/CD and pre-commit |
 
-## 🏗️ Agregar Nueva Feature
+## 🏗️ Adding New Feature
 
-### **1. Crear Estructura del Módulo**
+### **1. Create Module Structure**
 ```bash
-mkdir src/modules/nueva-feature
-cd src/modules/nueva-feature
+mkdir src/modules/new-feature
+cd src/modules/new-feature
 
-# Crear archivos base
-touch nueva-feature.router.ts
-touch nueva-feature.service.ts
-touch nueva-feature.repo.ts
-touch nueva-feature.dto.ts
-touch nueva-feature.mapper.ts
+# Create base files
+touch new-feature.router.ts
+touch new-feature.service.ts
+touch new-feature.repo.ts
+touch new-feature.dto.ts
+touch new-feature.mapper.ts
 ```
 
-### **2. Template para Router**
+### **2. Router Template**
 ```typescript
-// nueva-feature.router.ts
+// new-feature.router.ts
 import { Router } from "express";
 import { requireAuth } from "../auth/requireAuth";
-import { NuevaFeatureService } from "./nueva-feature.service";
+import { NewFeatureService } from "./new-feature.service";
 
-export const nuevaFeatureRouter = Router();
+export const newFeatureRouter = Router();
 
-nuevaFeatureRouter.get("/nueva-feature", requireAuth, async (req, res, next) => {
+newFeatureRouter.get("/new-feature", requireAuth, async (req, res, next) => {
     try {
-        const result = await NuevaFeatureService.getAll();
+        const result = await NewFeatureService.getAll();
         res.json(result);
     } catch (error) {
         next(error);
@@ -167,20 +167,20 @@ nuevaFeatureRouter.get("/nueva-feature", requireAuth, async (req, res, next) => 
 });
 ```
 
-### **3. Template para Service**
+### **3. Service Template**
 ```typescript
-// nueva-feature.service.ts
-import { NuevaFeatureRepo } from "./nueva-feature.repo";
+// new-feature.service.ts
+import { NewFeatureRepo } from "./new-feature.repo";
 import { NotFound } from "../../common/http/errors";
 
-export class NuevaFeatureService {
+export class NewFeatureService {
     static async getAll() {
-        const items = await NuevaFeatureRepo.findAll();
+        const items = await NewFeatureRepo.findAll();
         return items;
     }
 
     static async getById(id: number) {
-        const item = await NuevaFeatureRepo.findById(id);
+        const item = await NewFeatureRepo.findById(id);
         if (!item) {
             throw new NotFound("Item not found");
         }
@@ -189,33 +189,33 @@ export class NuevaFeatureService {
 }
 ```
 
-### **4. Template para Repository**
+### **4. Repository Template**
 ```typescript
-// nueva-feature.repo.ts
+// new-feature.repo.ts
 import { db } from "../../infra/db/client";
-import { nuevaFeatureTable } from "../../infra/db/schema";
+import { newFeatureTable } from "../../infra/db/schema";
 import { eq } from "drizzle-orm";
 
-export class NuevaFeatureRepo {
+export class NewFeatureRepo {
     static async findAll() {
-        return await db.select().from(nuevaFeatureTable);
+        return await db.select().from(newFeatureTable);
     }
 
     static async findById(id: number) {
         const [item] = await db
             .select()
-            .from(nuevaFeatureTable)
-            .where(eq(nuevaFeatureTable.id, id))
+            .from(newFeatureTable)
+            .where(eq(newFeatureTable.id, id))
             .limit(1);
         return item;
     }
 }
 ```
 
-### **5. Agregar a Schema de DB**
+### **5. Add to DB Schema**
 ```typescript
 // src/infra/db/schema.ts
-export const nuevaFeatureTable = pgTable("nueva_feature", {
+export const newFeatureTable = pgTable("new_feature", {
     id: serial("id").primaryKey(),
     name: text("name").notNull(),
     description: text("description"),
@@ -224,15 +224,15 @@ export const nuevaFeatureTable = pgTable("nueva_feature", {
 });
 ```
 
-### **6. Registrar Router**
+### **6. Register Router**
 ```typescript
-// src/app.ts (o donde registres rutas)
-import { nuevaFeatureRouter } from "./modules/nueva-feature/nueva-feature.router";
+// src/app.ts (or where you register routes)
+import { newFeatureRouter } from "./modules/new-feature/new-feature.router";
 
-app.use("/api", nuevaFeatureRouter);
+app.use("/api", newFeatureRouter);
 ```
 
-### **7. Generar y Aplicar Migración**
+### **7. Generate and Apply Migration**
 ```bash
 pnpm db:gen
 pnpm db:migrate
@@ -240,26 +240,26 @@ pnpm db:migrate
 
 ## 🧪 Testing Strategy
 
-### **Estructura de Tests**
+### **Test Structure**
 ```
 src/test/
-├── unit/                      # Tests unitarios
-│   ├── services/             # Test de services
-│   └── repositories/         # Test de repositories
-├── integration/              # Tests de integración
-│   └── modules/              # Tests de módulos completos
-└── e2e/                      # Tests end-to-end
-    └── *.e2e.test.ts         # Tests de API completos
+├── unit/                      # Unit tests
+│   ├── services/             # Service tests
+│   └── repositories/         # Repository tests
+├── integration/              # Integration tests
+│   └── modules/              # Complete module tests
+└── e2e/                      # End-to-end tests
+    └── *.e2e.test.ts         # Complete API tests
 ```
 
-### **Test Unitario - Service**
+### **Unit Test - Service**
 ```typescript
 // src/test/unit/services/users.service.test.ts
 import { describe, it, expect, vi } from 'vitest';
 import { UsersService } from '../../../modules/users/users.service';
 import { UsersRepo } from '../../../modules/users/users.repo';
 
-// Mock del repository
+// Mock the repository
 vi.mock('../../../modules/users/users.repo');
 
 describe('UsersService', () => {
@@ -278,7 +278,7 @@ describe('UsersService', () => {
 });
 ```
 
-### **Test E2E - API**
+### **E2E Test - API**
 ```typescript
 // src/test/e2e/users.e2e.test.ts
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
@@ -289,7 +289,7 @@ describe('Users API', () => {
     let authToken: string;
 
     beforeAll(async () => {
-        // Setup: crear usuario y obtener token
+        // Setup: create user and get token
         const loginResponse = await request(app)
             .post('/auth/login')
             .send({ email: 'test@test.com', password: 'password123' });
@@ -337,9 +337,9 @@ describe('Users API', () => {
 }
 ```
 
-### **Logging para Debug**
+### **Logging for Debug**
 ```typescript
-// Usar logger estructurado
+// Use structured logger
 import { logger } from "../../config/logger";
 
 export class SomeService {
@@ -360,7 +360,7 @@ export class SomeService {
 
 ### **Database Debugging**
 ```typescript
-// Habilitar query logging en desarrollo
+// Enable query logging in development
 // src/infra/db/client.ts
 const client = postgres(env.DATABASE_URL, {
     debug: env.NODE_ENV === 'development' // Log SQL queries
@@ -371,31 +371,31 @@ const client = postgres(env.DATABASE_URL, {
 
 ### **Database Queries**
 ```typescript
-// ✅ BUENO: Select específico
+// ✅ GOOD: Specific select
 const users = await db
     .select({ id: usersTable.id, name: usersTable.name })
     .from(usersTable);
 
-// ❌ MALO: Select *
+// ❌ BAD: Select *
 const users = await db.select().from(usersTable);
 
-// ✅ BUENO: Usar límites
+// ✅ GOOD: Use limits
 const users = await db
     .select()
     .from(usersTable)
     .limit(10);
 
-// ✅ BUENO: Índices en where clauses
+// ✅ GOOD: Indexes on where clauses
 const user = await db
     .select()
     .from(usersTable)
-    .where(eq(usersTable.id, id)) // id está indexado
+    .where(eq(usersTable.id, id)) // id is indexed
     .limit(1);
 ```
 
 ### **Memory Management**
 ```typescript
-// ✅ BUENO: Streaming para large datasets
+// ✅ GOOD: Streaming for large datasets
 async function* getUsersStream() {
     const users = await db.select().from(usersTable);
     for (const user of users) {
@@ -403,7 +403,7 @@ async function* getUsersStream() {
     }
 }
 
-// ✅ BUENO: Pagination
+// ✅ GOOD: Pagination
 async function getUsers(page: number = 1, limit: number = 10) {
     const offset = (page - 1) * limit;
     return await db
@@ -416,6 +416,6 @@ async function getUsers(page: number = 1, limit: number = 10) {
 
 ---
 
-## ➡️ Siguiente Paso
+## ➡️ Next Step
 
-Continúa con [**Base de Datos**](./05-database.md) para aprender sobre schemas, migraciones y Drizzle ORM.
+Continue with [**Database**](./05-database.md) to learn about schemas, migrations, and Drizzle ORM.

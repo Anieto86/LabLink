@@ -32,13 +32,7 @@
 - Migrations
 - Drizzle Studio
 
-### 🔐 [Authentication & Security](./06-authentication.md)
-- JWT authentication system
-- Authorization middleware
-- Token management
-- Security best practices
-
-### 📡 [API Reference](./07-api-reference.md)
+###  [API Reference](./07-api-reference.md)
 - Available endpoints
 - Request/response schemas
 - Usage examples
@@ -69,7 +63,7 @@
 - **New to the project**: Start with [Overview](./01-overview.md) then [Quick Start Guide](./02-quick-start.md)
 - **Developer**: Go directly to [Development Guide](./04-development.md) and [Architecture](./03-architecture.md)
 - **DevOps/Deploy**: Review [Database](./05-database.md) and [Deployment](./09-deployment.md)
-- **Frontend/API Consumer**: Check [API Reference](./07-api-reference.md) and [Authentication](./06-authentication.md)
+- **Frontend/API Consumer**: Check [API Reference](./07-api-reference.md) for endpoints and schemas
 
 ---
 

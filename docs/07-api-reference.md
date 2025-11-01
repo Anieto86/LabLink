@@ -1,6 +1,6 @@
 # API Reference
 
-Esta documentación describe todos los endpoints disponibles en la API de LabLink, incluyendo esquemas de request/response y ejemplos.
+This documentation describes all available endpoints in the LabLink API, including request/response schemas and examples.
 
 ## 🌐 Base URL
 
@@ -9,19 +9,19 @@ Development: http://localhost:3000
 Production: https://your-domain.com
 ```
 
-## 🔐 Autenticación
+## 🔐 Authentication
 
-LabLink utiliza **JWT (JSON Web Tokens)** para autenticación. La mayoría de endpoints requieren un token válido.
+LabLink uses **JWT (JSON Web Tokens)** for authentication. Most endpoints require a valid token.
 
-### **Header de Autenticación**
+### **Authentication Header**
 ```http
 Authorization: Bearer <your-jwt-token>
 ```
 
-### **Flujo de Autenticación**
-1. **Login** → Obtener access token (24h) y refresh token (7d)
-2. **Usar access token** en requests a endpoints protegidos
-3. **Refresh token** cuando access token expire
+### **Authentication Flow**
+1. **Login** → Get access token (24h) and refresh token (7d)
+2. **Use access token** in requests to protected endpoints
+3. **Refresh token** when access token expires
 
 ---
 
@@ -30,7 +30,7 @@ Authorization: Bearer <your-jwt-token>
 ### **Authentication (`/auth`)**
 
 #### `POST /auth/login`
-Autenticar usuario y obtener tokens JWT.
+Authenticate user and obtain JWT tokens.
 
 **Request:**
 ```http
@@ -85,7 +85,7 @@ Content-Type: application/json
 ```
 
 #### `POST /auth/refresh`
-Renovar access token usando refresh token.
+Renew access token using refresh token.
 
 **Request:**
 ```http
@@ -118,7 +118,7 @@ Content-Type: application/json
 ### **Users (`/users`)**
 
 #### `GET /users/me`
-Obtener información del usuario autenticado.
+Get authenticated user information.
 
 **Request:**
 ```http
@@ -154,7 +154,7 @@ Authorization: Bearer <access-token>
 ```
 
 #### `POST /users`
-Crear nuevo usuario (registro).
+Create new user (registration).
 
 **Request:**
 ```http
@@ -206,7 +206,7 @@ Content-Type: application/json
 ### **Health Check (`/health`)**
 
 #### `GET /health`
-Verificar estado del servidor y conexiones.
+Check server status and connections.
 
 **Request:**
 ```http
@@ -240,13 +240,13 @@ GET /health
 
 ---
 
-## 📋 Esquemas de Datos
+## 📋 Data Schemas
 
 ### **UserBase**
 ```typescript
 {
-  name: string;     // 2-50 caracteres
-  email: string;    // Email válido
+  name: string;     // 2-50 characters
+  email: string;    // Valid email
   role: "USER" | "ADMIN";  // Default: "USER"
 }
 ```
@@ -257,7 +257,7 @@ GET /health
   name: string;
   email: string;
   role?: "USER" | "ADMIN";
-  password: string; // 8-100 caracteres
+  password: string; // 8-100 characters
 }
 ```
 
@@ -275,42 +275,42 @@ GET /health
 ### **UserLogin**
 ```typescript
 {
-  email: string;    // Email válido
-  password: string; // Sin validación de longitud
+  email: string;    // Valid email
+  password: string; // No length validation
 }
 ```
 
 ### **AuthTokens**
 ```typescript
 {
-  access_token: string;  // JWT válido por 24h
-  refresh_token: string; // JWT válido por 7d
-  expires_in: number;    // Segundos hasta expiración
+  access_token: string;  // JWT valid for 24h
+  refresh_token: string; // JWT valid for 7d
+  expires_in: number;    // Seconds until expiration
 }
 ```
 
 ---
 
-## 🚨 Códigos de Error
+## 🚨 Error Codes
 
-| Código | Nombre | Descripción | Cuándo Ocurre |
-|--------|--------|-------------|---------------|
-| **200** | OK | Request exitoso | Operación completada |
-| **201** | Created | Recurso creado | POST exitoso |
-| **400** | Bad Request | Request inválido | Datos de entrada incorrectos |
-| **401** | Unauthorized | No autorizado | Token inválido/faltante |
-| **403** | Forbidden | Sin permisos | Token válido pero sin permisos |
-| **404** | Not Found | Recurso no encontrado | URL o recurso inexistente |
-| **409** | Conflict | Conflicto de datos | Email ya existe |
-| **422** | Unprocessable Entity | Validación fallida | Datos válidos pero lógicamente incorrectos |
-| **500** | Internal Server Error | Error del servidor | Error interno inesperado |
-| **503** | Service Unavailable | Servicio no disponible | DB desconectada, etc. |
+| Code | Name | Description | When It Occurs |
+|------|------|-------------|----------------|
+| **200** | OK | Successful request | Operation completed |
+| **201** | Created | Resource created | Successful POST |
+| **400** | Bad Request | Invalid request | Incorrect input data |
+| **401** | Unauthorized | Not authorized | Invalid/missing token |
+| **403** | Forbidden | No permissions | Valid token but no permissions |
+| **404** | Not Found | Resource not found | URL or resource doesn't exist |
+| **409** | Conflict | Data conflict | Email already exists |
+| **422** | Unprocessable Entity | Validation failed | Valid data but logically incorrect |
+| **500** | Internal Server Error | Server error | Unexpected internal error |
+| **503** | Service Unavailable | Service unavailable | DB disconnected, etc. |
 
 ---
 
-## 📝 Ejemplos con cURL
+## 📝 cURL Examples
 
-### **Login Completo**
+### **Complete Login**
 ```bash
 # 1. Login
 curl -X POST http://localhost:3000/auth/login \\
@@ -320,19 +320,19 @@ curl -X POST http://localhost:3000/auth/login \\
     "password": "password123"
   }'
 
-# Response: guarda el access_token
+# Response: save the access_token
 {
   "tokens": {
     "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
   }
 }
 
-# 2. Usar token para acceder a endpoint protegido
+# 2. Use token to access protected endpoint
 curl -X GET http://localhost:3000/users/me \\
   -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
 ```
 
-### **Registro de Usuario**
+### **User Registration**
 ```bash
 curl -X POST http://localhost:3000/users \\
   -H "Content-Type: application/json" \\
@@ -350,9 +350,9 @@ curl -X GET http://localhost:3000/health
 
 ---
 
-## 📄 Ejemplos con JavaScript/TypeScript
+## 📄 JavaScript/TypeScript Examples
 
-### **Cliente con Fetch API**
+### **Client with Fetch API**
 ```typescript
 class LabLinkClient {
   private baseURL = 'http://localhost:3000';
@@ -407,7 +407,7 @@ class LabLinkClient {
   }
 }
 
-// Uso
+// Usage
 const client = new LabLinkClient();
 
 try {
@@ -419,7 +419,7 @@ try {
 }
 ```
 
-### **Cliente con Axios**
+### **Client with Axios**
 ```typescript
 import axios from 'axios';
 
@@ -428,7 +428,7 @@ const api = axios.create({
   timeout: 10000
 });
 
-// Interceptor para agregar token automáticamente
+// Interceptor to add token automatically
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('accessToken');
   if (token) {
@@ -437,12 +437,12 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Interceptor para manejar errores de autenticación
+// Interceptor to handle authentication errors
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
     if (error.response?.status === 401) {
-      // Token expirado, intentar refresh
+      // Token expired, try refresh
       try {
         const refreshToken = localStorage.getItem('refreshToken');
         const response = await api.post('/auth/refresh', {
@@ -451,11 +451,11 @@ api.interceptors.response.use(
 
         localStorage.setItem('accessToken', response.data.access_token);
 
-        // Reintentar request original
+        // Retry original request
         error.config.headers.Authorization = `Bearer ${response.data.access_token}`;
         return api.request(error.config);
       } catch {
-        // Refresh falló, redirect a login
+        // Refresh failed, redirect to login
         localStorage.clear();
         window.location.href = '/login';
       }
@@ -464,7 +464,7 @@ api.interceptors.response.use(
   }
 );
 
-// Funciones helper
+// Helper functions
 export const authAPI = {
   login: (email: string, password: string) =>
     api.post('/auth/login', { email, password }),
@@ -481,7 +481,7 @@ export const authAPI = {
 
 ---
 
-## 🔧 Testing de API
+## 🔧 API Testing
 
 ### **Postman Collection**
 ```json
@@ -550,6 +550,6 @@ export const authAPI = {
 
 ---
 
-## ➡️ Siguiente Paso
+## ➡️ Next Step
 
-Continúa con [**Autenticación y Seguridad**](./06-authentication.md) para entender en profundidad el sistema JWT y las medidas de seguridad implementadas.
+Continue with **Authentication & Security** to understand the JWT system and implemented security measures in depth.
