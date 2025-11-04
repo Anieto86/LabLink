@@ -8,6 +8,13 @@
       "when": 1761959502388,
       "tag": "0000_clumsy_johnny_blaze",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1762229021572,
+      "tag": "0001_silent_bloodaxe",
+      "breakpoints": true
     }
   ]
 }

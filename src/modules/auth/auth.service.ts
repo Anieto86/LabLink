@@ -1,82 +1,67 @@
-import type { JWTPayload } from "jose";
+import * as bcrypt from "bcrypt";
 import { jwtVerify, SignJWT } from "jose";
 import { env } from "../../config/env.js";
+import { AuthRepo } from "./auth.repo.js";
 
-const JWT_SECRET = new TextEncoder().encode(env.SECRET_KEY);
-const JWT_ALGORITHM = "HS256";
+const SECRET = new TextEncoder().encode(env.SECRET_KEY);
+const ALG = (env.JWT_ALG || "HS256") as "HS256" | "HS384" | "HS512";
+const ACCESS_TTL = env.JWT_EXPIRES || "10m";
+const REFRESH_TTL_MS = 1000 * 60 * 60 * 24 * 7; // 7d
 
-/**
- * Generate an access token for a user
- */
-export async function generateAccessToken(
-	userId: number,
-	email: string,
-): Promise<string> {
-	const token = await new SignJWT({
-		sub: userId.toString(),
-		email: email,
-	})
-		.setProtectedHeader({ alg: JWT_ALGORITHM })
-		.setIssuedAt()
-		.setExpirationTime("24h") // Token expires in 24 hours
-		.sign(JWT_SECRET);
-
-	return token;
-}
-
-/**
- * Verify and decode an access token
- */
-export async function verifyAccess(token: string): Promise<JWTPayload> {
-	try {
-		const { payload } = await jwtVerify(token, JWT_SECRET, {
-			algorithms: [JWT_ALGORITHM],
-		});
-		return payload;
-	} catch {
-		throw new Error("Invalid or expired token");
-	}
-}
-
-/**
- * Generate a refresh token for a user (longer expiration)
- */
-export async function generateRefreshToken(userId: number): Promise<string> {
-	const token = await new SignJWT({
-		sub: userId.toString(),
-		type: "refresh",
-	})
-		.setProtectedHeader({ alg: JWT_ALGORITHM })
-		.setIssuedAt()
-		.setExpirationTime("7d") // Refresh token expires in 7 days
-		.sign(JWT_SECRET);
-
-	return token;
-}
-
-/**
- * Verify a refresh token
- */
-export async function verifyRefresh(token: string): Promise<JWTPayload> {
-	try {
-		const { payload } = await jwtVerify(token, JWT_SECRET, {
-			algorithms: [JWT_ALGORITHM],
-		});
-
-		if (payload.type !== "refresh") {
-			throw new Error("Invalid token type");
-		}
-
-		return payload;
-	} catch {
-		throw new Error("Invalid or expired refresh token");
-	}
-}
-
-// Export as object for backward compatibility if needed
 export const AuthService = {
-	generateAccessToken,
-	verifyAccess,
-	generateRefreshToken,
-	verifyRefresh,
+	hash: (pwd: string) => bcrypt.hash(pwd, 10),
+	compare: (pwd: string, hash: string) => bcrypt.compare(pwd, hash),
+
+	signAccess: (payload: Record<string, unknown>) =>
+		new SignJWT(payload)
+			.setProtectedHeader({ alg: ALG })
+			.setExpirationTime(ACCESS_TTL)
+			.sign(SECRET),
+
+	verifyAccess: async (token: string) =>
+		(await jwtVerify(token, SECRET)).payload,
+
+	genRefresh(): string {
+		return `${crypto.randomUUID()}.${crypto.randomUUID()}`;
+	},
+	refreshExpiry(): Date {
+		return new Date(Date.now() + REFRESH_TTL_MS);
+	},
+
+	async issueTokens(user: { id: number; email: string }) {
+		const access_token = await this.signAccess({
+			sub: user.id,
+			email: user.email,
+		});
+		const refresh_token = this.genRefresh();
+		await AuthRepo.insertRefreshToken(
+			user.id,
+			refresh_token,
+			this.refreshExpiry(),
+		);
+		return { access_token, refresh_token };
+	},
+
+	async rotate(prevToken: string) {
+		const stored = await AuthRepo.findRefreshToken(prevToken);
+		if (!stored || stored.isRevoked || stored.expiresAt <= new Date())
+			return null;
+		const next = this.genRefresh();
+		const rotated = await AuthRepo.rotateRefreshToken(
+			prevToken,
+			next,
+			this.refreshExpiry(),
+		);
+		const user = await AuthRepo.findById(rotated.userId);
+		if (!user || !user.isActive) return null;
+		const access_token = await this.signAccess({
+			sub: user.id,
+			email: user.email,
+		});
+		return { access_token, refresh_token: next };
+	},
+
+	async revoke(refreshToken: string) {
+		await AuthRepo.revokeRefreshToken(refreshToken);
+	},
 };
