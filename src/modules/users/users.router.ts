@@ -1,9 +1,4 @@
-import type {
-	Router as ExpressRouter,
-	NextFunction,
-	Request,
-	Response,
-} from "express";
+import type { Router as ExpressRouter, NextFunction, Request, Response } from "express";
 import { Router } from "express";
 import { requireAuth } from "../auth/requireAuth";
 import { userReadSchema } from "./users.dtos";
@@ -28,13 +23,12 @@ usersRouter.get(
 
 			const { id } = req.user;
 			const row = await UsersRepo.findById(Number(id));
-			if (!row || !row.isActive)
-				return res.status(404).json({ detail: "User not found" });
+			if (!row || !row.isActive) return res.status(404).json({ detail: "User not found" });
 
 			const payload = toUserRead(row); // mapea DB -> contrato público
 			res.json(userReadSchema.parse(payload)); // valida salida
 		} catch (e) {
 			next(e);
 		}
-	},
+	}
 );

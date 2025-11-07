@@ -3,7 +3,7 @@ import type { Config } from "drizzle-kit";
 
 config();
 
-const dbHost = process.env.DB_HOST === 'db' ? '127.0.0.1' : process.env.DB_HOST || 'localhost'; // Resolve 'db' to '127.0.0.1' if not in a Docker network, otherwise default to 'localhost'
+const dbHost = process.env.DB_HOST === "db" ? "127.0.0.1" : process.env.DB_HOST || "localhost"; // Resolve 'db' to '127.0.0.1' if not in a Docker network, otherwise default to 'localhost'
 const dbPort = process.env.DB_PORT || "5432";
 const dbUser = process.env.DB_USER || "postgres";
 const dbPassword = process.env.DB_PASSWORD || "postgres";
@@ -18,7 +18,7 @@ const finalDatabaseUrl = process.env.DATABASE_URL || constructedDatabaseUrl;
 
 if (!process.env.DATABASE_URL) {
 	console.warn(
-		"⚠️  DATABASE_URL not provided — using constructed URL from DB_* environment variables.",
+		"⚠️  DATABASE_URL not provided — using constructed URL from DB_* environment variables."
 	);
 }
 

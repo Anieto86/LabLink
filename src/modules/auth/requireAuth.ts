@@ -1,11 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 import { AuthService } from "./auth.service";
 
-export async function requireAuth(
-	req: Request,
-	res: Response,
-	next: NextFunction,
-): Promise<void> {
+export async function requireAuth(req: Request, res: Response, next: NextFunction): Promise<void> {
 	const header = req.headers.authorization;
 	if (!header?.startsWith("Bearer ")) {
 		res.status(401).json({ detail: "Missing token" });

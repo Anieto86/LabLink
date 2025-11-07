@@ -96,10 +96,10 @@ temp/
 ehthumbs.db
 Thumbs.db
 
-# Database
-*.sqlite
-*.sqlite3
-*.db
+# Database (PostgreSQL dumps and backups)
+*.sql
+*.dump
+*.backup
 
 # Drizzle Kit
 .drizzle/
@@ -153,21 +153,14 @@ pino-logs/
 .idea/
 *.swp
 *.swo
-*~
 
-# Mac OS
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-
-# Windows
+# Windows OS files
 ehthumbs.db
 Thumbs.db
 desktop.ini
+*.lnk
 
-# Linux
+# Linux (si colaboras con usuarios Linux)
 *~
 
 # Package managers
@@ -179,11 +172,12 @@ pnpm-lock.yaml
 .github/workflows/*.local.yml
 .github/secrets/
 
-# Database files
-*.sqlite
-*.sqlite3
-*.db
-*.db-journal
+# PostgreSQL files
+*.sql
+*.dump
+*.backup
+pg_dump_*
+postgres_backup_*
 
 # Backup files
 *.bak

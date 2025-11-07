@@ -24,7 +24,7 @@ export const users = pgTable(
 	},
 	(t) => ({
 		emailIdx: uniqueIndex("user_email_idx").on(t.email),
-	}),
+	})
 );
 
 /* ---------------- REFRESH TOKENS TABLE ---------------- */
@@ -42,5 +42,5 @@ export const refreshTokens = pgTable(
 	(t) => ({
 		tokenUq: uniqueIndex("refresh_token_uq").on(t.token),
 		userIdx: index("refresh_user_idx").on(t.userId),
-	}),
+	})
 );

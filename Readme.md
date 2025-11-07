@@ -3,9 +3,9 @@
 A modern Node.js API built with TypeScript, Express, and Drizzle ORM for biological data tracking and management.
 
 📘 **Documentation:**
-- 📖 [Complete Documentation](./docs/README.md) - Full technical guides
-- 🌐 [Live Documentation](https://anieto86.github.io/LabLink-node/) - Online documentation
-- 🚀 [Quick Start](./docs/02-quick-start.md) - Get started in 5 minutes
+- 📖 [Complete Documentation](./docs/index.md) - Full project documentation
+- 🌐 [API Documentation](http://localhost:3000/api-docs) - Swagger UI (when server is running)
+- 🚀 [Contributing Guidelines](./docs/CONTRIBUTING.md) - How to contribute
 
 
 ## 🚀 Features
@@ -24,7 +24,21 @@ A modern Node.js API built with TypeScript, Express, and Drizzle ORM for biologi
 - **HTTP Client** - Built-in HTTP client utilities
 - **Error Handling** - Centralized error handling and response formatting
 
-## 📋 Prerequisites
+## � Project Status
+
+![TypeScript](https://img.shields.io/badge/TypeScript-100%25-blue)
+![Tests](https://img.shields.io/badge/Tests-Setup-green)
+![Documentation](https://img.shields.io/badge/Docs-Complete-green)
+![API](https://img.shields.io/badge/API-Swagger-orange)
+
+- ✅ **Infrastructure**: TypeScript, Drizzle ORM, PostgreSQL
+- ✅ **Authentication**: JWT-based auth system
+- ✅ **Documentation**: Complete API docs with Swagger UI
+- ✅ **Testing**: Vitest setup with CI/CD
+- ✅ **Development Tools**: Obsidian integration, Warp workflows
+- 🔲 **Core Features**: Laboratory management (in progress)
+
+## �📋 Prerequisites
 
 - Node.js (v18 or higher)
 - pnpm (v10.11.0 or higher)

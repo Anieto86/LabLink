@@ -1,4 +1,4 @@
-import { resolve } from "path";
+import { resolve } from "node:path";
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
@@ -9,14 +9,7 @@ export default defineConfig({
 		coverage: {
 			provider: "v8",
 			reporter: ["text", "json", "html"],
-			exclude: [
-				"node_modules/",
-				"dist/",
-				"drizzle/",
-				"**/*.config.ts",
-				"**/*.d.ts",
-				"src/test/",
-			],
+			exclude: ["node_modules/", "dist/", "drizzle/", "**/*.config.ts", "**/*.d.ts", "src/test/"],
 		},
 		alias: {
 			"@": resolve(__dirname, "./src"),

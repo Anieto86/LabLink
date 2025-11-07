@@ -1,74 +1,72 @@
 {
-  "compilerOptions": {
-    /* Language and Environment */
-    "target": "ES2022",
-    "lib": ["ES2022"],
-    "module": "ESNext",
-    "moduleResolution": "Node",
+	"compilerOptions": {
+		/* Language and Environment */
+		"target": "ES2022",
+		"lib": ["ES2022"],
+		"module": "ESNext",
+		"moduleResolution": "Node",
 
-    /* Emit */
-    "outDir": "./dist",
-    "removeComments": true,
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
+		/* Emit */
+		"outDir": "./dist",
+		"removeComments": true,
+		"declaration": true,
+		"declarationMap": true,
+		"sourceMap": true,
 
-    /* Interop Constraints */
-    "isolatedModules": true,
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
+		/* Interop Constraints */
+		"isolatedModules": true,
+		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
 
-    /* Type Checking */
-    "strict": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "strictBindCallApply": true,
-    "strictPropertyInitialization": true,
-    "noImplicitReturns": false,
-    "noImplicitOverride": true,
-    "noPropertyAccessFromIndexSignature": false,
-    "noUncheckedIndexedAccess": true,
-    "exactOptionalPropertyTypes": false,
+		/* Type Checking */
+		"strict": true,
+		"noImplicitAny": true,
+		"strictNullChecks": true,
+		"strictFunctionTypes": true,
+		"strictBindCallApply": true,
+		"strictPropertyInitialization": true,
+		"noImplicitReturns": false,
+		"noImplicitOverride": true,
+		"noPropertyAccessFromIndexSignature": false,
+		"noUncheckedIndexedAccess": true,
+		"exactOptionalPropertyTypes": false,
 
-    /* Completeness */
-    "skipLibCheck": true,
-    "skipDefaultLibCheck": true,
+		/* Completeness */
+		"skipLibCheck": true,
+		"skipDefaultLibCheck": true,
 
-    /* Path Mapping */
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"],
-      "@/test/*": ["./src/test/*"],
-      "@/modules/*": ["./src/modules/*"],
-      "@/infra/*": ["./src/infra/*"],
-      "@/config/*": ["./src/config/*"],
-      "@/common/*": ["./src/common/*"]
-    },
+		/* Path Mapping */
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["./src/*"],
+			"@/test/*": ["./src/test/*"],
+			"@/modules/*": ["./src/modules/*"],
+			"@/infra/*": ["./src/infra/*"],
+			"@/config/*": ["./src/config/*"],
+			"@/common/*": ["./src/common/*"]
+		},
 
-    /* Node.js */
-    "types": ["node", "vitest/globals"],
-    "moduleDetection": "force",
-    "resolveJsonModule": true,
+		/* Node.js */
+		"types": ["node", "vitest/globals"],
+		"moduleDetection": "force",
+		"resolveJsonModule": true,
 
-    /* Advanced */
-    "incremental": true,
-    "tsBuildInfoFile": "./.tsbuildinfo"
-  },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "drizzle/migrations",
-    "**/*.test.ts",
-    "**/*.spec.ts",
-    "coverage"
-  ],
-  "ts-node": {
-    "esm": true,
-    "experimentalSpecifierResolution": "node"
-  }
+		/* Advanced */
+		"incremental": true,
+		"tsBuildInfoFile": "./.tsbuildinfo"
+	},
+	"include": ["src/**/*"],
+	"exclude": [
+		"node_modules",
+		"dist",
+		"drizzle/migrations",
+		"**/*.test.ts",
+		"**/*.spec.ts",
+		"coverage"
+	],
+	"ts-node": {
+		"esm": true,
+		"experimentalSpecifierResolution": "node"
+	}
 }

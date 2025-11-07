@@ -1,15 +1,15 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import cors from "cors";
 import express, { type Express } from "express";
-import { readFileSync } from "fs";
 import helmet from "helmet";
-import { join } from "path";
 import swaggerUi from "swagger-ui-express";
 import { authRouter } from "./modules/auth/auth.router";
 import { usersRouter } from "./modules/users/users.router";
 
 // Load OpenAPI specification
 const openApiSpec = JSON.parse(
-	readFileSync(join(process.cwd(), "src/openapi/openapi.json"), "utf8"),
+	readFileSync(join(process.cwd(), "src/openapi/openapi.json"), "utf8")
 );
 
 export const app: Express = express();
@@ -29,7 +29,7 @@ app.use(
 		swaggerOptions: {
 			persistAuthorization: true,
 		},
-	}),
+	})
 );
 
 // API Routes

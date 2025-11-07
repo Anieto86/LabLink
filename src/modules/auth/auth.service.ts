@@ -18,8 +18,7 @@ export const AuthService = {
 			.setExpirationTime(ACCESS_TTL)
 			.sign(SECRET),
 
-	verifyAccess: async (token: string) =>
-		(await jwtVerify(token, SECRET)).payload,
+	verifyAccess: async (token: string) => (await jwtVerify(token, SECRET)).payload,
 
 	genRefresh(): string {
 		return `${crypto.randomUUID()}.${crypto.randomUUID()}`;
@@ -34,24 +33,15 @@ export const AuthService = {
 			email: user.email,
 		});
 		const refresh_token = this.genRefresh();
-		await AuthRepo.insertRefreshToken(
-			user.id,
-			refresh_token,
-			this.refreshExpiry(),
-		);
+		await AuthRepo.insertRefreshToken(user.id, refresh_token, this.refreshExpiry());
 		return { access_token, refresh_token };
 	},
 
 	async rotate(prevToken: string) {
 		const stored = await AuthRepo.findRefreshToken(prevToken);
-		if (!stored || stored.isRevoked || stored.expiresAt <= new Date())
-			return null;
+		if (!stored || stored.isRevoked || stored.expiresAt <= new Date()) return null;
 		const next = this.genRefresh();
-		const rotated = await AuthRepo.rotateRefreshToken(
-			prevToken,
-			next,
-			this.refreshExpiry(),
-		);
+		const rotated = await AuthRepo.rotateRefreshToken(prevToken, next, this.refreshExpiry());
 		const user = await AuthRepo.findById(rotated.userId);
 		if (!user || !user.isActive) return null;
 		const access_token = await this.signAccess({
