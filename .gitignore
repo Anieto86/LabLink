@@ -108,9 +108,91 @@ Thumbs.db
 test-results/
 playwright-report/
 playwright/.cache/
+coverage/
+.nyc_output/
+junit.xml
+
+# TypeScript
+*.tsbuildinfo
+.tsbuildinfo
+
+# Vitest
+vitest.config.*.tmp
 
 # Tools and temporary files
 tools/obsidian-integration/temp/
 tools/warp-workflows/temp/
 *.tmp
 src/test-file.js
+
+# Obsidian Vault Sync
+tools/obsidian-integration/vault-sync/
+last-sync.txt
+
+# Warp Terminal
+.warp/
+
+# API Documentation
+docs/api/generated/
+
+# Logs (structured)
+logs/
+*.log
+pino-logs/
+
+# Environment files (all variations)
+.env
+.env.*
+!.env.example
+!.env.template
+
+# Development
+.vscode/settings.json
+.vscode/launch.json
+.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+
+# Mac OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Linux
+*~
+
+# Package managers
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# CI/CD
+.github/workflows/*.local.yml
+.github/secrets/
+
+# Database files
+*.sqlite
+*.sqlite3
+*.db
+*.db-journal
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Temporary files
+.tmp/
+tmp/
+temp/
+*.tmp
+*.temp
