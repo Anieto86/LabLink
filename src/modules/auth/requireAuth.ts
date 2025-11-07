@@ -5,10 +5,12 @@ export async function requireAuth(
 	req: Request,
 	res: Response,
 	next: NextFunction,
-) {
+): Promise<void> {
 	const header = req.headers.authorization;
-	if (!header?.startsWith("Bearer "))
-		return res.status(401).json({ detail: "Missing token" });
+	if (!header?.startsWith("Bearer ")) {
+		res.status(401).json({ detail: "Missing token" });
+		return;
+	}
 	try {
 		const payload = await AuthService.verifyAccess(header.slice(7));
 		// Extend Request type to include user

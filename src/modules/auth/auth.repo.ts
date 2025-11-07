@@ -73,6 +73,9 @@ export const AuthRepo = {
 				expiresAt: nextExpiry,
 			})
 			.returning();
+		if (!ins) {
+			throw new Error("Failed to create refresh token");
+		}
 		return { userId: ins.userId, next: ins };
 	},
 };
