@@ -2,7 +2,7 @@ import { Router } from "express";
 import { requireAuth } from "../auth/requireAuth";
 import { userReadSchema } from "./users.dtos";
 import { toUserRead } from "./users.mapper";
-import { UsersRepo } from "./users.repo.js";
+import { UsersRepo } from "./users.repo";
 
 export const usersRouter = Router();
 
