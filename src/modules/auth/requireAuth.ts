@@ -11,10 +11,10 @@ export async function requireAuth(
 		return res.status(401).json({ detail: "Missing token" });
 	try {
 		const payload = await AuthService.verifyAccess(header.slice(7));
-		// biome-ignore lint/suspicious/noExplicitAny: Express Request type extension requires any
-		(req as any).user = {
+		// Extend Request type to include user
+		(req as Request & { user?: { id: number; email: string } }).user = {
 			id: Number(payload.sub),
-			email: (payload as any).email,
+			email: typeof payload.email === "string" ? payload.email : "",
 		};
 		next();
 	} catch {
