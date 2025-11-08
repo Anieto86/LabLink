@@ -34,6 +34,11 @@ export const AuthRepo = {
 		await db.update(refreshTokens).set({ isRevoked: true }).where(eq(refreshTokens.token, token));
 	},
 	rotateRefreshToken: async (prevToken: string, nextToken: string, nextExpiry: Date) => {
+		const prevRefreshToken = await AuthRepo.findRefreshToken(prevToken);
+		if (!prevRefreshToken) {
+			throw new Error("Previous refresh token not found");
+		}
+
 		await db
 			.update(refreshTokens)
 			.set({ isRevoked: true, replacedByToken: nextToken })
@@ -41,7 +46,7 @@ export const AuthRepo = {
 		const [ins] = await db
 			.insert(refreshTokens)
 			.values({
-				userId: (await AuthRepo.findRefreshToken(prevToken))?.userId,
+				userId: prevRefreshToken.userId,
 				token: nextToken,
 				expiresAt: nextExpiry,
 			})
