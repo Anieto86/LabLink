@@ -9,13 +9,14 @@ export type UserRow = {
 	created_at?: Date | null; // DB uses snake_case
 };
 
-// DB row -> API UserRead (converts snake_case to API contract)
+// DB row -> API UserRead (snake_case for API contract consistency)
 export function toUserRead(u: UserRow) {
 	return {
 		id: u.id,
 		name: u.name,
 		role: u.role,
 		email: u.email,
-		is_active: u.is_active, // Keep snake_case for API contract consistency
+		is_active: u.is_active, // Keep snake_case for API contract
+		created_at: u.created_at, // Keep snake_case for API contract
 	};
 }

@@ -14,10 +14,11 @@ export const userCreateDto = userBaseDto.extend({
 		.max(100, "Password is too long"),
 });
 
-/** = UserRead (UserBase + id + is_active) */
+/** = UserRead (UserBase + id + is_active + created_at) */
 export const userReadDto = userBaseDto.extend({
 	id: z.number().int(),
-	is_active: z.boolean(), // note: snake_case to maintain Python contract compatibility
+	is_active: z.boolean(), // snake_case for API contract
+	created_at: z.date().optional().nullable(), // snake_case for API contract
 });
 
 /** = UserLogin */

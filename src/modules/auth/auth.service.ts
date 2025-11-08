@@ -39,11 +39,11 @@ export const AuthService = {
 
 	async rotate(prevToken: string) {
 		const stored = await AuthRepo.findRefreshToken(prevToken);
-		if (!stored || stored.isRevoked || stored.expiresAt <= new Date()) return null;
+		if (!stored || stored.is_revoked || stored.expires_at <= new Date()) return null;
 		const next = this.genRefresh();
 		const rotated = await AuthRepo.rotateRefreshToken(prevToken, next, this.refreshExpiry());
 		const user = await AuthRepo.findById(rotated.userId);
-		if (!user || !user.isActive) return null;
+		if (!user || !user.is_active) return null;
 		const access_token = await this.signAccess({
 			sub: user.id,
 			email: user.email,
