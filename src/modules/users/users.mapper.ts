@@ -4,18 +4,18 @@ export type UserRow = {
 	name: string;
 	role: string;
 	email: string;
-	passwordHash: string;
-	isActive: boolean;
-	createdAt?: Date | null;
+	password_hash: string; // DB uses snake_case
+	is_active: boolean; // DB uses snake_case
+	created_at?: Date | null; // DB uses snake_case
 };
 
-// DB row -> API UserRead (Python contract)
+// DB row -> API UserRead (converts snake_case to API contract)
 export function toUserRead(u: UserRow) {
 	return {
 		id: u.id,
 		name: u.name,
 		role: u.role,
 		email: u.email,
-		is_active: u.isActive,
+		is_active: u.is_active, // Keep snake_case for API contract consistency
 	};
 }

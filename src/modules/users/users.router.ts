@@ -1,7 +1,7 @@
 import type { Router as ExpressRouter, NextFunction, Request, Response } from "express";
 import { Router } from "express";
 import { requireAuth } from "../auth/requireAuth";
-import { userReadSchema } from "./users.dtos";
+import { userReadDto } from "./users.dtos";
 import { toUserRead } from "./users.mapper";
 import { UsersRepo } from "./users.repo";
 
@@ -26,7 +26,7 @@ usersRouter.get(
 			if (!row || !row.isActive) return res.status(404).json({ detail: "User not found" });
 
 			const payload = toUserRead(row); // maps DB -> public contract
-			res.json(userReadSchema.parse(payload)); // validates output
+			res.json(userReadDto.parse(payload)); // validates output
 		} catch (e) {
 			next(e);
 		}

@@ -15,6 +15,13 @@
       "when": 1762229021572,
       "tag": "0001_silent_bloodaxe",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1762574894037,
+      "tag": "0002_careful_blade",
+      "breakpoints": true
     }
   ]
 }
