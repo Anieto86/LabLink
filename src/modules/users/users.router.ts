@@ -25,8 +25,8 @@ usersRouter.get(
 			const row = await UsersRepo.findById(Number(id));
 			if (!row || !row.isActive) return res.status(404).json({ detail: "User not found" });
 
-			const payload = toUserRead(row); // mapea DB -> contrato público
-			res.json(userReadSchema.parse(payload)); // valida salida
+			const payload = toUserRead(row); // maps DB -> public contract
+			res.json(userReadSchema.parse(payload)); // validates output
 		} catch (e) {
 			next(e);
 		}

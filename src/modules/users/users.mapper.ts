@@ -1,4 +1,4 @@
-// Tipo aproximado de la fila en DB (ajustá si tu schema cambia)
+// Approximate type of DB row (adjust if your schema changes)
 export type UserRow = {
 	id: number;
 	name: string;
@@ -9,7 +9,7 @@ export type UserRow = {
 	createdAt?: Date | null;
 };
 
-// DB row -> API UserRead (contrato Python)
+// DB row -> API UserRead (Python contract)
 export function toUserRead(u: UserRow) {
 	return {
 		id: u.id,
