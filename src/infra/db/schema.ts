@@ -19,8 +19,8 @@ export const users = pgTable(
 		role: varchar("role", { length: 100 }).notNull(),
 		email: varchar("email", { length: 255 }).notNull(),
 		password_hash: varchar("password_hash", { length: 255 }).notNull(),
-		is_active: boolean("is_active").default(true).notNull(),
-		created_at: timestamp("created_at", { withTimezone: true }).defaultNow(),
+		isActive: boolean("is_active").default(true).notNull(),
+		createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
 	},
 	(t) => ({
 		emailIdx: uniqueIndex("user_email_idx").on(t.email),
@@ -35,14 +35,14 @@ export const equipment = pgTable(
 		id: serial("id").primaryKey(),
 		name: varchar("name", { length: 255 }).notNull(),
 		type: varchar("type", { length: 100 }),
-		laboratory_id: integer("laboratory_id"),
+		laboratoryId: integer("laboratory_id"), // 👈 columna SQL = laboratory_id
 		status: varchar("status", { length: 50 }),
-		created_at: timestamp("created_at", { withTimezone: true }).defaultNow(),
+		createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
 	},
 	// The (t) => ({ ... }) tells Drizzle:
 	// "in addition to columns, I want to create indexes on certain fields".
 	(t) => ({
-		labIdx: index("equipment_lab_idx").on(t.laboratory_id),
+		labIdx: index("equipment_lab_idx").on(t.laboratoryId),
 		statusIdx: index("equipment_status_idx").on(t.status),
 	})
 );

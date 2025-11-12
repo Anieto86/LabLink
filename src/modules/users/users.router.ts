@@ -23,7 +23,7 @@ usersRouter.get(
 
 			const { id } = req.user;
 			const row = await UsersRepo.findById(Number(id));
-			if (!row || !row.is_active) return res.status(404).json({ detail: "User not found" });
+			if (!row || !row.isActive) return res.status(404).json({ detail: "User not found" });
 
 			const payload = toUserRead(row); // maps DB -> public contract
 			res.json(userReadDto.parse(payload)); // validates output

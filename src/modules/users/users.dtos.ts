@@ -18,7 +18,7 @@ export const userCreateDto = userBaseDto.extend({
 export const userReadDto = userBaseDto.extend({
 	id: z.number().int(),
 	is_active: z.boolean(), // snake_case for API contract
-	created_at: z.date().optional().nullable(), // snake_case for API contract
+	createdAt: z.date().optional().nullable(), // snake_case for API contract
 });
 
 /** = UserLogin */

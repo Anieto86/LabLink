@@ -5,8 +5,8 @@ export type UserRow = {
 	role: string;
 	email: string;
 	password_hash: string; // DB uses snake_case
-	is_active: boolean; // DB uses snake_case
-	created_at?: Date | null; // DB uses snake_case
+	isActive: boolean; // DB uses snake_case
+	createdAt?: Date | null; // DB uses snake_case
 };
 
 // DB row -> API UserRead (snake_case for API contract consistency)
@@ -16,7 +16,7 @@ export function toUserRead(u: UserRow) {
 		name: u.name,
 		role: u.role,
 		email: u.email,
-		is_active: u.is_active, // Keep snake_case for API contract
-		created_at: u.created_at, // Keep snake_case for API contract
+		isActive: u.isActive, // Keep snake_case for API contract
+		createdAt: u.createdAt, // Keep snake_case for API contract
 	};
 }

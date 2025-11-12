@@ -43,7 +43,7 @@ export const AuthService = {
 		const next = this.genRefresh();
 		const rotated = await AuthRepo.rotateRefreshToken(prevToken, next, this.refreshExpiry());
 		const user = await AuthRepo.findById(rotated.userId);
-		if (!user || !user.is_active) return null;
+		if (!user || !user.isActive) return null;
 		const access_token = await this.signAccess({
 			sub: user.id,
 			email: user.email,

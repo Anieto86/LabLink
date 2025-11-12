@@ -1,10 +1,11 @@
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
 import cors from "cors";
 import express, { type Express } from "express";
 import helmet from "helmet";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import swaggerUi from "swagger-ui-express";
 import { authRouter } from "./modules/auth/auth.router";
+import { equipmentRouter } from "./modules/equipment/equipment.router";
 import { usersRouter } from "./modules/users/users.router";
 
 // Load OpenAPI specification
@@ -35,6 +36,7 @@ app.use(
 // API Routes
 app.use(authRouter);
 app.use(usersRouter);
+app.use(equipmentRouter);
 
 // Health check endpoint
 app.get("/health", (_req, res) => {
