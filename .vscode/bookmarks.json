@@ -1,0 +1,194 @@
+{
+  "files": [
+    {
+      "path": "src/server.ts",
+      "bookmarks": [
+        {
+          "line": 4,
+          "column": 0,
+          "label": "A.Server & App Flow.1 - Server Entry Point"
+        }
+      ]
+    },
+    {
+      "path": "src/app.ts",
+      "bookmarks": [
+        {
+          "line": 10,
+          "column": 0,
+          "label": "A.Server & App Flow.2 - App Configuration"
+        },
+        {
+          "line": 15,
+          "column": 0,
+          "label": "B.Module Creation Flow.5 - Register Router in App"
+        }
+      ]
+    },
+    {
+      "path": "src/index.ts",
+      "bookmarks": [
+        {
+          "line": 1,
+          "column": 0,
+          "label": "A.Server & App Flow.3 - Main Index"
+        }
+      ]
+    },
+    {
+      "path": "src/infra/db/schema.ts",
+      "bookmarks": [
+        {
+          "line": 1,
+          "column": 0,
+          "label": "B.Module Creation Flow.1 - Define Schema First"
+        },
+        {
+          "line": 10,
+          "column": 0,
+          "label": "F.Database Flow.1 - Database Schema"
+        }
+      ]
+    },
+    {
+      "path": "src/modules/auth/auth.repo.ts",
+      "bookmarks": [
+        {
+          "line": 1,
+          "column": 0,
+          "label": "B.Module Creation Flow.2 - Create Repository"
+        },
+        {
+          "line": 5,
+          "column": 0,
+          "label": "C.Auth Module Flow.3 - Auth Repository"
+        }
+      ]
+    },
+    {
+      "path": "src/modules/auth/auth.service.ts",
+      "bookmarks": [
+        {
+          "line": 1,
+          "column": 0,
+          "label": "B.Module Creation Flow.3 - Create Service"
+        },
+        {
+          "line": 8,
+          "column": 0,
+          "label": "C.Auth Module Flow.2 - Auth Service"
+        }
+      ]
+    },
+    {
+      "path": "src/modules/auth/auth.router.ts",
+      "bookmarks": [
+        {
+          "line": 1,
+          "column": 0,
+          "label": "B.Module Creation Flow.4 - Create Router"
+        },
+        {
+          "line": 6,
+          "column": 0,
+          "label": "C.Auth Module Flow.1 - Auth Router"
+        }
+      ]
+    },
+    {
+      "path": "src/test/e2e/health.e2e.test.ts",
+      "bookmarks": [
+        {
+          "line": 1,
+          "column": 0,
+          "label": "B.Module Creation Flow.6 - Create E2E Tests"
+        },
+        {
+          "line": 1,
+          "column": 0,
+          "label": "E.Health Check Flow.2 - Health E2E Test"
+        }
+      ]
+    },
+    {
+      "path": "src/modules/users/users.router.ts",
+      "bookmarks": [
+        {
+          "line": 5,
+          "column": 0,
+          "label": "D.Users Module Flow.1 - Users Router"
+        }
+      ]
+    },
+    {
+      "path": "src/modules/health/health.router.ts",
+      "bookmarks": [
+        {
+          "line": 5,
+          "column": 0,
+          "label": "E.Health Check Flow.1 - Health Router"
+        }
+      ]
+    },
+    {
+      "path": "src/infra/db/client.ts",
+      "bookmarks": [
+        {
+          "line": 1,
+          "column": 0,
+          "label": "F.Database Flow.2 - Database Client"
+        }
+      ]
+    },
+    {
+      "path": "src/config/env.ts",
+      "bookmarks": [
+        {
+          "line": 1,
+          "column": 0,
+          "label": "G.Configuration Flow.1 - Environment Config"
+        }
+      ]
+    },
+    {
+      "path": "src/config/logger.ts",
+      "bookmarks": [
+        {
+          "line": 1,
+          "column": 0,
+          "label": "G.Configuration Flow.2 - Logger Config"
+        }
+      ]
+    },
+    {
+      "path": "src/infra/http/client.ts",
+      "bookmarks": [
+        {
+          "line": 1,
+          "column": 0,
+          "label": "H.HTTP Infrastructure Flow.1 - HTTP Client"
+        }
+      ]
+    },
+    {
+      "path": "src/common/http/errors.ts",
+      "bookmarks": [
+        {
+          "line": 1,
+          "column": 0,
+          "label": "H.HTTP Infrastructure Flow.2 - HTTP Errors"
+        }
+      ]
+    },
+    {
+      "path": "src/common/http/handlers.ts",
+      "bookmarks": [
+        {
+          "line": 1,
+          "column": 0,
+          "label": "H.HTTP Infrastructure Flow.3 - HTTP Handlers"
+        }
+      ]
+    }
+  ]
+}

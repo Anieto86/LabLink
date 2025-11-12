@@ -1,6 +1,7 @@
 import { eq } from "drizzle-orm";
 import { db } from "../../infra/db/client.js";
 import { equipment } from "../../infra/db/schema.js";
+import type { EquipmentCreate } from "./equipment.dtos.js";
 import type { EquipmentRow } from "./equipment.mapper.js";
 
 export const EquipmentRepo = {
@@ -15,6 +16,9 @@ export const EquipmentRepo = {
 
 	create: async (data: EquipmentCreate): Promise<EquipmentRow> => {
 		const [row] = await db.insert(equipment).values(data).returning();
+		if (!row) {
+			throw new Error("Failed to create equipment");
+		}
 		return row;
 	},
 };
