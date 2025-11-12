@@ -5,8 +5,8 @@ import {
 	type Response,
 	Router,
 } from "express";
-import { requireAuth } from "../auth/requireAuth";
-import { equipmentReadDto } from "./equipment.dtos";
+// import { requireAuth } from "../auth/requireAuth";
+import { equipmentCreateDto, equipmentReadDto } from "./equipment.dtos";
 import { toEquipmentRead } from "./equipment.mapper";
 import { EquipmentRepo } from "./equipment.repo.js";
 
@@ -19,7 +19,8 @@ interface AuthenticatedRequest extends Request {
 
 equipmentRouter.get(
 	"/equipment/:id",
-	requireAuth,
+	//!TODO activate the auth later
+	// requireAuth,
 	async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
 		try {
 			const id = Number(req.params.id);
@@ -36,3 +37,15 @@ equipmentRouter.get(
 		}
 	}
 );
+
+equipmentRouter.post("/equipment", async (req, res, next) => {
+	try {
+		const input = equipmentCreateDto.parse(req.body); // valida input
+		const row = await EquipmentRepo.create(input); // inserta en DB
+		const payload = toEquipmentRead(row); // limpia/formatea
+		const data = equipmentReadDto.parse(payload); // valida salida
+		return res.status(201).json(data);
+	} catch (e) {
+		next(e);
+	}
+});

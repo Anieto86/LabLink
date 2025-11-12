@@ -12,4 +12,9 @@ export const EquipmentRepo = {
 		const rows = await db.select().from(equipment).where(eq(equipment.laboratoryId, laboratoryId));
 		return rows.length > 0 ? rows : null;
 	},
+
+	create: async (data: EquipmentCreate): Promise<EquipmentRow> => {
+		const [row] = await db.insert(equipment).values(data).returning();
+		return row;
+	},
 };
