@@ -5,6 +5,7 @@ import helmet from "helmet";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import swaggerUi from "swagger-ui-express";
+import { errorHandler } from "./common/middlewares/errorHandler.js";
 import { authRouter } from "./modules/auth/auth.router";
 import { equipmentRouter } from "./modules/equipment/equipment.router";
 import { usersRouter } from "./modules/users/users.router";
@@ -38,6 +39,7 @@ app.use(
 app.use(authRouter);
 app.use(usersRouter);
 app.use(equipmentRouter);
+app.use(errorHandler);
 
 // Health check endpoint
 app.get("/health", (_req, res) => {

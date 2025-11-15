@@ -14,12 +14,12 @@
 			"path": "src/app.ts",
 			"bookmarks": [
 				{
-					"line": 10,
+					"line": 11,
 					"column": 0,
 					"label": "A.Server & App Flow.2 - App Configuration"
 				},
 				{
-					"line": 15,
+					"line": 16,
 					"column": 0,
 					"label": "B.Module Creation Flow.5 - Register Router in App"
 				}
@@ -169,7 +169,7 @@
 			"path": "src/common/http/errors.ts",
 			"bookmarks": [
 				{
-					"line": 1,
+					"line": 2,
 					"column": 0,
 					"label": "H.HTTP Infrastructure Flow.2 - HTTP Errors"
 				}
