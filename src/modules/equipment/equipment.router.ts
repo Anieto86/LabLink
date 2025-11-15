@@ -30,7 +30,7 @@ equipmentRouter.get(
 			// DB row -> mapper -> DTO validation -> response
 			const payload = toEquipmentRead(row);
 			const data = equipmentReadDto.parse(payload);
-
+			console.log(data);
 			return res.json(data);
 		} catch (error) {
 			next(error);

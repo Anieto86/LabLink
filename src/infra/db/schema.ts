@@ -1,49 +1,74 @@
 import {
+	bigint,
+	bigserial,
 	boolean,
 	index,
 	integer,
+	pgEnum,
 	pgTable,
 	serial,
 	text,
 	timestamp,
 	uniqueIndex,
-	varchar,
 } from "drizzle-orm/pg-core";
 
-/* ---------------- USERS TABLE ---------------- */
+// ---------- Enums ----------
+
+export const equipmentStatus = pgEnum("equipment_status", [
+	"available",
+	"in_use",
+	"maintenance",
+	"out_of_order",
+	"retired",
+]);
+
+export const formStatus = pgEnum("form_status", ["draft", "published", "archived"]);
+
+export const userRole = pgEnum("user_role", ["admin", "scientist", "student", "tech", "viewer"]);
+
+// ---------- Users ----------
+
 export const users = pgTable(
 	"users",
 	{
-		id: serial("id").primaryKey(),
-		name: varchar("name", { length: 255 }).notNull(),
-		role: varchar("role", { length: 100 }).notNull(),
-		email: varchar("email", { length: 255 }).notNull(),
-		password_hash: varchar("password_hash", { length: 255 }).notNull(),
-		isActive: boolean("is_active").default(true).notNull(),
-		createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+		id: bigserial("id", { mode: "number" }).primaryKey(),
+		name: text("name").notNull(),
+		role: userRole("role").default("viewer"),
+		email: text("email").notNull(), // consider citext via migration if needed
+		passwordHash: text("password_hash").notNull(),
+		isActive: boolean("is_active").notNull().default(true),
+		createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+		updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 	},
-	(t) => ({
-		emailIdx: uniqueIndex("user_email_idx").on(t.email),
+	(table) => ({
+		emailUniqueIdx: uniqueIndex("users_email_unique").on(table.email),
 	})
 );
 
-/* ---------------- EQUIPMENT TABLE ---------------- */
+// ---------- Laboratories ----------
+
+export const laboratories = pgTable("laboratories", {
+	id: bigserial("id", { mode: "number" }).primaryKey(),
+	name: text("name").notNull(),
+	location: text("location"),
+	capacity: integer("capacity"),
+});
+
+// ---------- Equipment ----------
 
 export const equipment = pgTable(
 	"equipment",
 	{
-		id: serial("id").primaryKey(),
-		name: varchar("name", { length: 255 }).notNull(),
-		type: varchar("type", { length: 100 }),
-		laboratoryId: integer("laboratory_id"), // 👈 columna SQL = laboratory_id
-		status: varchar("status", { length: 50 }),
-		createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+		id: bigserial("id", { mode: "number" }).primaryKey(),
+		name: text("name").notNull(),
+		type: text("type"),
+		laboratoryId: bigint("laboratory_id", { mode: "number" }).references(() => laboratories.id),
+		status: equipmentStatus("status").default("available"),
+		createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+		updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 	},
-	// The (t) => ({ ... }) tells Drizzle:
-	// "in addition to columns, I want to create indexes on certain fields".
-	(t) => ({
-		labIdx: index("equipment_lab_idx").on(t.laboratoryId),
-		statusIdx: index("equipment_status_idx").on(t.status),
+	(table) => ({
+		labIdx: index("equipment_laboratory_id_idx").on(table.laboratoryId),
 	})
 );
 
