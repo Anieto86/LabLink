@@ -11,8 +11,7 @@ export const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
 			issues: err.issues,
 		});
 	}
-
-	// Custom mapped errors
+	// 2) Custom semantic errors
 	if (err instanceof NotFoundError) {
 		return res.status(404).json({ detail: err.message });
 	}
@@ -25,6 +24,7 @@ export const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
 		return res.status(400).json({ detail: err.message });
 	}
 
+	// 3) Fallas inesperadas
 	console.error(err);
 
 	return res.status(500).json({
