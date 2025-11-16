@@ -31,6 +31,7 @@ assignees: ''
 <!-- Please complete the following information -->
 - **OS**: [e.g. Windows 11, macOS, Linux]
 - **Node.js Version**: [e.g. 18.17.0]
+- **pnpm Version**: [e.g. 8.15.0]
 - **Database**: [e.g. PostgreSQL 15.2]
 - **Browser** (if applicable): [e.g. Chrome 118, Firefox 119]
 

@@ -37,7 +37,7 @@ pnpm dev
 ## ��� Features
 
 - User management
-- Laboratory equipment tracking  
+- Laboratory equipment tracking
 - Authentication & authorization
 - RESTful API design
 - Type-safe database operations
@@ -56,13 +56,14 @@ pnpm db:migrate       # Apply migrations
 pnpm db:studio        # Open Drizzle Studio
 
 # Documentation
-./docs/sync-obsidian.sh  # Sync personal docs to Obsidian
+pnpm sync:obsidian    # Sync personal docs to Obsidian
+pnpm docs:serve       # Show GitHub Pages URL
 ```
 
 ## 📊 Project Status
 
 - ✅ **Authentication** - JWT-based auth system
-- ✅ **User Management** - Complete CRUD operations  
+- ✅ **User Management** - Complete CRUD operations
 - 🚧 **Equipment Tracking** - In development
 - 📋 **Laboratory Management** - Planned
 - 📈 **Analytics Dashboard** - Future feature

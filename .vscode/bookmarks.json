@@ -176,32 +176,12 @@
 			]
 		},
 		{
-			"path": "src/infra/http/client.ts",
-			"bookmarks": [
-				{
-					"line": 1,
-					"column": 0,
-					"label": "H.HTTP Infrastructure Flow.1-3 - HTTP Client"
-				}
-			]
-		},
-		{
 			"path": "src/common/http/errors.ts",
 			"bookmarks": [
 				{
 					"line": 1,
 					"column": 0,
 					"label": "H.HTTP Infrastructure Flow.2-3 - HTTP Errors"
-				}
-			]
-		},
-		{
-			"path": "src/common/http/handlers.ts",
-			"bookmarks": [
-				{
-					"line": 1,
-					"column": 0,
-					"label": "H.HTTP Infrastructure Flow.3-3 - HTTP Handlers"
 				}
 			]
 		}

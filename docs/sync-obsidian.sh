@@ -11,11 +11,11 @@ NC='\033[0m' # No Color
 
 # Paths
 OBSIDIAN_VAULT="c:/Users/alvar/Documents/Obsidian-syc-git/Projects/LabLink"
-SOURCE_DIR="docs/obsidian"
+SOURCE_DIR="docs/obsidian-Lablink"
 
 echo -e "${BLUE}🔄 LabLink → Obsidian Sync${NC}"
 echo -e "${YELLOW}Source:${NC} $SOURCE_DIR"
-echo -e "${YELLOW}Target:${NC} $OBSIDIAN_VAULT/obsidian/"
+echo -e "${YELLOW}Target:${NC} $OBSIDIAN_VAULT/obsidian-Lablink/"
 
 # Check if source exists
 if [ ! -d "$SOURCE_DIR" ]; then
@@ -29,12 +29,12 @@ if [ ! -d "$OBSIDIAN_VAULT" ]; then
     exit 1
 fi
 
-# Create obsidian folder in vault if it doesn't exist
-mkdir -p "$OBSIDIAN_VAULT/obsidian"
+# Create obsidian-Lablink folder in vault if it doesn't exist
+mkdir -p "$OBSIDIAN_VAULT/obsidian-Lablink"
 
 # Sync files
 echo "📋 Syncing personal templates and guides..."
-cp -r "$SOURCE_DIR"/* "$OBSIDIAN_VAULT/obsidian/"
+cp -r "$SOURCE_DIR"/* "$OBSIDIAN_VAULT/obsidian-Lablink/"
 
 # Count synced files
 file_count=$(find "$SOURCE_DIR" -name "*.md" | wc -l)
@@ -54,3 +54,4 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 fi
 
 echo -e "${BLUE}🎯 Done! Check your Obsidian vault.${NC}"
+echo -e "${YELLOW}💡 Tip: Use 'pnpm sync:obsidian' to run this script${NC}"

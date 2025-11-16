@@ -9,7 +9,7 @@ pnpm install
 # Start development
 pnpm dev
 
-# Run tests  
+# Run tests
 pnpm test
 ```
 
