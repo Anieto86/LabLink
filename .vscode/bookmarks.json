@@ -6,7 +6,7 @@
 				{
 					"line": 4,
 					"column": 0,
-					"label": "A.Server & App Flow.1 - Server Entry Point"
+					"label": "A.Server & App Flow.1-3 - Server Entry Point"
 				}
 			]
 		},
@@ -16,12 +16,12 @@
 				{
 					"line": 16,
 					"column": 0,
-					"label": "A.Server & App Flow.2 - App Configuration"
+					"label": "A.Server & App Flow.2-3 - App Configuration"
 				},
 				{
 					"line": 45,
 					"column": 0,
-					"label": "B.Module Creation Flow.5 - Register Router in App"
+					"label": "B.Module Creation Flow.7-7 - Register Router in App"
 				}
 			]
 		},
@@ -31,7 +31,7 @@
 				{
 					"line": 1,
 					"column": 0,
-					"label": "A.Server & App Flow.3 - Main Index"
+					"label": "A.Server & App Flow.3-3 - Main Index"
 				}
 			]
 		},
@@ -41,12 +41,12 @@
 				{
 					"line": 1,
 					"column": 0,
-					"label": "B.Module Creation Flow.1 - Define Schema First"
+					"label": "B.Module Creation Flow.1-7 - Define Schema First"
 				},
 				{
 					"line": 18,
 					"column": 0,
-					"label": "F.Database Flow.1 - Database Schema"
+					"label": "F.Database Flow.1-2 - Database Schema"
 				}
 			]
 		},
@@ -56,12 +56,12 @@
 				{
 					"line": 1,
 					"column": 0,
-					"label": "B.Module Creation Flow.2 - Create Repository"
+					"label": "B.Module Creation Flow.2-7 - Create Repository"
 				},
 				{
 					"line": 7,
 					"column": 0,
-					"label": "C.Auth Module Flow.3 - Auth Repository"
+					"label": "C.Auth Module Flow.3-3 - Auth Repository"
 				}
 			]
 		},
@@ -71,12 +71,12 @@
 				{
 					"line": 1,
 					"column": 0,
-					"label": "B.Module Creation Flow.3 - Create Service"
+					"label": "B.Module Creation Flow.5-7 - Create Service"
 				},
 				{
 					"line": 5,
 					"column": 0,
-					"label": "C.Auth Module Flow.2 - Auth Service"
+					"label": "C.Auth Module Flow.2-3 - Auth Service"
 				}
 			]
 		},
@@ -84,14 +84,9 @@
 			"path": "src/modules/auth/auth.router.ts",
 			"bookmarks": [
 				{
-					"line": 1,
-					"column": 0,
-					"label": "B.Module Creation Flow.4 - Create Router"
-				},
-				{
 					"line": 7,
 					"column": 0,
-					"label": "C.Auth Module Flow.1 - Auth Router"
+					"label": "C.Auth Module Flow.1-3 - Auth Router"
 				}
 			]
 		},
@@ -99,14 +94,9 @@
 			"path": "src/test/e2e/health.e2e.test.ts",
 			"bookmarks": [
 				{
-					"line": 1,
-					"column": 0,
-					"label": "B.Module Creation Flow.6 - Create E2E Tests"
-				},
-				{
 					"line": 10,
 					"column": 0,
-					"label": "E.Health Check Flow.2 - Health E2E Test"
+					"label": "E.Health Check Flow.2-2 - Health E2E Test"
 				}
 			]
 		},
@@ -114,9 +104,34 @@
 			"path": "src/modules/users/users.router.ts",
 			"bookmarks": [
 				{
+					"line": 1,
+					"column": 0,
+					"label": "B.Module Creation Flow.6-7 - Create Router"
+				},
+				{
 					"line": 9,
 					"column": 0,
-					"label": "D.Users Module Flow.1 - Users Router"
+					"label": "D.Users Module Flow.1-1 - Users Router"
+				}
+			]
+		},
+		{
+			"path": "src/modules/users/users.dtos.ts",
+			"bookmarks": [
+				{
+					"line": 1,
+					"column": 0,
+					"label": "B.Module Creation Flow.3-7 - Create DTOs"
+				}
+			]
+		},
+		{
+			"path": "src/modules/users/users.mapper.ts",
+			"bookmarks": [
+				{
+					"line": 1,
+					"column": 0,
+					"label": "B.Module Creation Flow.4-7 - Create Mapper"
 				}
 			]
 		},
@@ -126,7 +141,7 @@
 				{
 					"line": 5,
 					"column": 0,
-					"label": "E.Health Check Flow.1 - Health Router"
+					"label": "E.Health Check Flow.1-2 - Health Router"
 				}
 			]
 		},
@@ -136,7 +151,7 @@
 				{
 					"line": 1,
 					"column": 0,
-					"label": "F.Database Flow.2 - Database Client"
+					"label": "F.Database Flow.2-2 - Database Client"
 				}
 			]
 		},
@@ -146,7 +161,7 @@
 				{
 					"line": 1,
 					"column": 0,
-					"label": "G.Configuration Flow.1 - Environment Config"
+					"label": "G.Configuration Flow.1-2 - Environment Config"
 				}
 			]
 		},
@@ -156,7 +171,7 @@
 				{
 					"line": 1,
 					"column": 0,
-					"label": "G.Configuration Flow.2 - Logger Config"
+					"label": "G.Configuration Flow.2-2 - Logger Config"
 				}
 			]
 		},
@@ -166,7 +181,7 @@
 				{
 					"line": 1,
 					"column": 0,
-					"label": "H.HTTP Infrastructure Flow.1 - HTTP Client"
+					"label": "H.HTTP Infrastructure Flow.1-3 - HTTP Client"
 				}
 			]
 		},
@@ -176,7 +191,7 @@
 				{
 					"line": 1,
 					"column": 0,
-					"label": "H.HTTP Infrastructure Flow.2 - HTTP Errors"
+					"label": "H.HTTP Infrastructure Flow.2-3 - HTTP Errors"
 				}
 			]
 		},
@@ -186,7 +201,7 @@
 				{
 					"line": 1,
 					"column": 0,
-					"label": "H.HTTP Infrastructure Flow.3 - HTTP Handlers"
+					"label": "H.HTTP Infrastructure Flow.3-3 - HTTP Handlers"
 				}
 			]
 		}
