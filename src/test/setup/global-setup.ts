@@ -23,13 +23,13 @@ export async function setupTestDatabase() {
 			name: "Test User",
 			email: "test@example.com",
 			passwordHash: "hashedPassword123",
-			role: "USER",
+			role: "viewer",
 		},
 		{
 			name: "Test Admin",
 			email: "admin@example.com",
 			passwordHash: "hashedPassword123",
-			role: "ADMIN",
+			role: "admin",
 		},
 	]);
 }

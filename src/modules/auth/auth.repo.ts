@@ -17,9 +17,9 @@ export const AuthRepo = {
 			.insert(users)
 			.values({
 				name: data.name,
-				role: data.role,
+				role: data.role as "admin" | "scientist" | "student" | "tech" | "viewer",
 				email: data.email,
-				password_hash: data.passwordHash,
+				passwordHash: data.passwordHash,
 			})
 			.returning();
 		return row;

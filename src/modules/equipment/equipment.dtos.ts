@@ -6,7 +6,9 @@ export const equipmentCreateDto = z.object({
 	name: z.string().min(2, "Name is required").max(100, "Name is too long"),
 	type: z.string().min(2, "Type is required").max(100, "Type is too long"),
 	laboratoryId: z.coerce.number().int().positive("Laboratory id must be positive"),
-	status: z.enum(["AVAILABLE", "IN_USE", "MAINTENANCE"]).default("AVAILABLE"),
+	status: z
+		.enum(["available", "in_use", "maintenance", "out_of_order", "retired"])
+		.default("available"),
 });
 
 export const equipmentReadDto = equipmentCreateDto.extend({

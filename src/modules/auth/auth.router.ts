@@ -44,7 +44,7 @@ authRouter.post("/auth/login", async (req: Request, res: Response, next: NextFun
 		const { email, password } = loginDto.parse(req.body);
 		const user = await AuthRepo.findByEmail(email);
 		if (!user || !user.isActive) return res.status(401).json({ detail: "Invalid credentials" });
-		const ok = await AuthService.compare(password, user.password_hash);
+		const ok = await AuthService.compare(password, user.passwordHash);
 		if (!ok) return res.status(401).json({ detail: "Invalid credentials" });
 
 		const tokens = await AuthService.issueTokens({

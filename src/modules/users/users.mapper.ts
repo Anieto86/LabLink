@@ -2,11 +2,11 @@
 export type UserRow = {
 	id: number;
 	name: string;
-	role: string;
+	role: "admin" | "scientist" | "student" | "tech" | "viewer" | null;
 	email: string;
-	password_hash: string; // DB uses snake_case
-	isActive: boolean; // DB uses snake_case
-	createdAt?: Date | null; // DB uses snake_case
+	passwordHash: string; // Drizzle maps to camelCase
+	isActive: boolean; // Drizzle maps to camelCase
+	createdAt?: Date | null; // Drizzle maps to camelCase
 };
 
 // DB row -> API UserRead (snake_case for API contract consistency)

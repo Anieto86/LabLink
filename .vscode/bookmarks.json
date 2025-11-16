@@ -36,16 +36,6 @@
 			]
 		},
 		{
-			"path": "src/infra/db/schema.ts",
-			"bookmarks": [
-				{
-					"line": 71,
-					"column": 0,
-					"label": "F.Database Flow.1 - Database Schema"
-				}
-			]
-		},
-		{
 			"path": "src/modules/auth/auth.repo.ts",
 			"bookmarks": [
 				{
@@ -156,32 +146,12 @@
 			]
 		},
 		{
-			"path": "src/infra/http/client.ts",
-			"bookmarks": [
-				{
-					"line": 1,
-					"column": 0,
-					"label": "H.HTTP Infrastructure Flow.1 - HTTP Client"
-				}
-			]
-		},
-		{
 			"path": "src/common/http/errors.ts",
 			"bookmarks": [
 				{
 					"line": 2,
 					"column": 0,
 					"label": "H.HTTP Infrastructure Flow.2 - HTTP Errors"
-				}
-			]
-		},
-		{
-			"path": "src/common/http/handlers.ts",
-			"bookmarks": [
-				{
-					"line": 1,
-					"column": 0,
-					"label": "H.HTTP Infrastructure Flow.3 - HTTP Handlers"
 				}
 			]
 		}

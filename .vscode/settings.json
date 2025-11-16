@@ -22,5 +22,8 @@
   "bookmarks.saveBookmarksInProject": true,
   "bookmarks.navigateThroughAllFiles": true,
   "bookmarks.wrapNavigation": true,
-  "bookmarks.alwaysUseLabel": true
+  "bookmarks.alwaysUseLabel": true,
+  "cSpell.words": [
+    "bigserial"
+  ]
 }
