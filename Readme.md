@@ -2,7 +2,7 @@
 
 > **Modern TypeScript API for laboratory management with Express + Drizzle ORM**
 
-## íº€ Quick Start
+## ï¿½ï¿½ï¿½ Quick Start
 
 ```bash
 # Install dependencies
@@ -15,13 +15,12 @@ pnpm db:migrate
 pnpm dev
 ```
 
-## í³š Documentation
+## ğŸ“š Documentation
 
-- **[Feature Creation Guide](docs/Feature-Creation-Flow.md)** - Step-by-step module development
 - **[Contributing Guidelines](docs/CONTRIBUTING.md)** - How to contribute
 - **[API Documentation](docs/index.md)** - Complete API reference
 
-## í¿—ï¸ Architecture
+## ï¿½ï¿½ï¿½ï¸ Architecture
 
 - **TypeScript** + Express.js
 - **Drizzle ORM** + PostgreSQL
@@ -29,18 +28,13 @@ pnpm dev
 - **JWT Authentication**
 - **Zod validation**
 
-## í·ª Features
+## ï¿½ï¿½ï¿½ Features
 
 - User management
 - Laboratory equipment tracking  
 - Authentication & authorization
 - RESTful API design
 - Type-safe database operations
-
-## í³– Development Flow
-
-Follow our **[5-step module creation process](docs/Feature-Creation-Flow.md)**:
-1. Schema â†’ 2. DTOs â†’ 3. Mapper â†’ 4. Repository â†’ 5. Router
 
 ---
 

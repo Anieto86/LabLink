@@ -18,7 +18,6 @@ pnpm test
 - **Health Check**: http://localhost:3000/health
 
 ## Development Guide
-- [**Feature Creation Flow**](Feature-Creation-Flow.md) - Step-by-step guide for new modules
 - [**Contributing**](CONTRIBUTING.md) - How to contribute to the project
 
 ## Architecture
