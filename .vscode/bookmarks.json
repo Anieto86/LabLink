@@ -19,7 +19,7 @@
 					"label": "A.Server & App Flow.2 - App Configuration"
 				},
 				{
-					"line": 21,
+					"line": 45,
 					"column": 0,
 					"label": "B.Module Creation Flow.5 - Register Router in App"
 				}
@@ -36,6 +36,21 @@
 			]
 		},
 		{
+			"path": "src/infra/db/schema.ts",
+			"bookmarks": [
+				{
+					"line": 1,
+					"column": 0,
+					"label": "B.Module Creation Flow.1 - Define Schema First"
+				},
+				{
+					"line": 18,
+					"column": 0,
+					"label": "F.Database Flow.1 - Database Schema"
+				}
+			]
+		},
+		{
 			"path": "src/modules/auth/auth.repo.ts",
 			"bookmarks": [
 				{
@@ -44,7 +59,7 @@
 					"label": "B.Module Creation Flow.2 - Create Repository"
 				},
 				{
-					"line": 5,
+					"line": 7,
 					"column": 0,
 					"label": "C.Auth Module Flow.3 - Auth Repository"
 				}
@@ -59,7 +74,7 @@
 					"label": "B.Module Creation Flow.3 - Create Service"
 				},
 				{
-					"line": 8,
+					"line": 5,
 					"column": 0,
 					"label": "C.Auth Module Flow.2 - Auth Service"
 				}
@@ -74,7 +89,7 @@
 					"label": "B.Module Creation Flow.4 - Create Router"
 				},
 				{
-					"line": 6,
+					"line": 7,
 					"column": 0,
 					"label": "C.Auth Module Flow.1 - Auth Router"
 				}
@@ -89,7 +104,7 @@
 					"label": "B.Module Creation Flow.6 - Create E2E Tests"
 				},
 				{
-					"line": 1,
+					"line": 10,
 					"column": 0,
 					"label": "E.Health Check Flow.2 - Health E2E Test"
 				}
@@ -99,7 +114,7 @@
 			"path": "src/modules/users/users.router.ts",
 			"bookmarks": [
 				{
-					"line": 5,
+					"line": 9,
 					"column": 0,
 					"label": "D.Users Module Flow.1 - Users Router"
 				}
@@ -129,7 +144,7 @@
 			"path": "src/config/env.ts",
 			"bookmarks": [
 				{
-					"line": 47,
+					"line": 1,
 					"column": 0,
 					"label": "G.Configuration Flow.1 - Environment Config"
 				}
@@ -146,12 +161,32 @@
 			]
 		},
 		{
+			"path": "src/infra/http/client.ts",
+			"bookmarks": [
+				{
+					"line": 1,
+					"column": 0,
+					"label": "H.HTTP Infrastructure Flow.1 - HTTP Client"
+				}
+			]
+		},
+		{
 			"path": "src/common/http/errors.ts",
 			"bookmarks": [
 				{
-					"line": 2,
+					"line": 1,
 					"column": 0,
 					"label": "H.HTTP Infrastructure Flow.2 - HTTP Errors"
+				}
+			]
+		},
+		{
+			"path": "src/common/http/handlers.ts",
+			"bookmarks": [
+				{
+					"line": 1,
+					"column": 0,
+					"label": "H.HTTP Infrastructure Flow.3 - HTTP Handlers"
 				}
 			]
 		}
