@@ -20,7 +20,9 @@
 		"lint": "biome lint .",
 		"check": "biome check .",
 		"obsidian:sync": "bash scripts/auto-sync-to-obsidian.sh",
-		"obsidian:watch": "nodemon --watch src --watch docs --exec 'bash scripts/auto-sync-to-obsidian.sh'"
+		"obsidian:watch": "nodemon --watch src --watch docs --exec 'bash scripts/auto-sync-to-obsidian.sh'",
+		"sync:obsidian": "./docs/sync-obsidian.sh",
+		"docs:serve": "echo 'Visit: https://anieto86.github.io/LabLink'"
 	},
 	"keywords": [
 		"laboratory",
