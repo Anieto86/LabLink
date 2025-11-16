@@ -12,6 +12,14 @@ pnpm-debug.log*
 .env.test.local
 .env.production.local
 
+# Obsidian personal documentation (synced separately)
+docs/obsidian-Lablink/
+
+# Personal development configurations
+.warp/
+.vscode/
+tools/warp-workflows/
+
 # Build outputs
 dist/
 build/
