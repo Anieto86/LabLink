@@ -129,7 +129,7 @@
 			"path": "src/config/env.ts",
 			"bookmarks": [
 				{
-					"line": 1,
+					"line": 25,
 					"column": 0,
 					"label": "G.Configuration Flow.1 - Environment Config"
 				}
