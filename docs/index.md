@@ -9,7 +9,7 @@ pnpm install
 # Start development
 pnpm dev
 
-# Run tests
+# Run tests  
 pnpm test
 ```
 
@@ -17,6 +17,12 @@ pnpm test
 - **Swagger UI**: http://localhost:3000/api-docs
 - **Health Check**: http://localhost:3000/health
 
-## Project Files
-- [**Contributing**](CONTRIBUTING.md) - How to contribute
-- [**TODO**](TODO.md) - Pending tasks
+## Documentation
+- [**Feature Creation Flow**](Feature-Creation-Flow.md) - Step-by-step guide for new modules
+- [**Contributing**](CONTRIBUTING.md) - How to contribute to the project
+- [**Templates**](templates/) - Obsidian templates for development
+
+## Architecture
+- **TypeScript** + Express + Drizzle ORM
+- **PostgreSQL** database
+- **Modular architecture** with layered approach
