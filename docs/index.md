@@ -1,4 +1,4 @@
-# LabLink Documentation
+# LabLink API Documentation
 
 ## Quick Start
 
@@ -13,16 +13,16 @@ pnpm dev
 pnpm test
 ```
 
-## API Documentation
+## API Endpoints
 - **Swagger UI**: http://localhost:3000/api-docs
 - **Health Check**: http://localhost:3000/health
 
-## Documentation
+## Development Guide
 - [**Feature Creation Flow**](Feature-Creation-Flow.md) - Step-by-step guide for new modules
 - [**Contributing**](CONTRIBUTING.md) - How to contribute to the project
-- [**Templates**](templates/) - Obsidian templates for development
 
 ## Architecture
 - **TypeScript** + Express + Drizzle ORM
 - **PostgreSQL** database
 - **Modular architecture** with layered approach
+- **Schema → DTOs → Mapper → Repository → Router**
