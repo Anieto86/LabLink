@@ -4,6 +4,14 @@ import { equipment } from "../../infra/db/schema.js";
 import type { EquipmentCreate } from "./equipment.dtos.js";
 import type { EquipmentRow } from "./equipment.mapper.js";
 
+const statusToDb: Record<EquipmentCreate["status"], EquipmentRow["status"]> = {
+	available: "available",
+	inUse: "in_use",
+	maintenance: "maintenance",
+	outOfOrder: "out_of_order",
+	retired: "retired",
+};
+
 export const EquipmentRepo = {
 	findById: async (id: number): Promise<EquipmentRow | null> => {
 		const [row] = await db.select().from(equipment).where(eq(equipment.id, id)).limit(1);
@@ -15,7 +23,10 @@ export const EquipmentRepo = {
 	},
 
 	create: async (data: EquipmentCreate): Promise<EquipmentRow> => {
-		const [row] = await db.insert(equipment).values(data).returning();
+		const [row] = await db
+			.insert(equipment)
+			.values({ ...data, status: statusToDb[data.status] })
+			.returning();
 		if (!row) {
 			throw new Error("Failed to create equipment");
 		}

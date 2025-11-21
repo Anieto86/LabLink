@@ -9,14 +9,14 @@ export type UserRow = {
 	createdAt?: Date | null; // Drizzle maps to camelCase
 };
 
-// DB row -> API UserRead (snake_case for API contract consistency)
+// DB row -> API UserRead (camelCase for API contract consistency)
 export function toUserRead(u: UserRow) {
 	return {
 		id: u.id,
 		name: u.name,
 		role: u.role,
 		email: u.email,
-		isActive: u.isActive, // Keep snake_case for API contract
-		createdAt: u.createdAt, // Keep snake_case for API contract
+		isActive: u.isActive,
+		createdAt: u.createdAt ? u.createdAt.toISOString() : null,
 	};
 }

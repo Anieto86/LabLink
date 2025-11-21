@@ -7,7 +7,7 @@ export const equipmentCreateDto = z.object({
 	type: z.string().min(2, "Type is required").max(100, "Type is too long"),
 	laboratoryId: z.coerce.number().int().positive("Laboratory id must be positive"),
 	status: z
-		.enum(["available", "in_use", "maintenance", "out_of_order", "retired"])
+		.enum(["available", "inUse", "maintenance", "outOfOrder", "retired"])
 		.default("available"),
 });
 

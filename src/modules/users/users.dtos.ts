@@ -3,7 +3,7 @@ import { z } from "zod";
 /** = UserBase */
 export const userBaseDto = z.object({
 	name: z.string().min(2, "Name is required").max(50, "Name is too long"),
-	role: z.enum(["USER", "ADMIN"]).default("USER"),
+	role: z.enum(["admin", "scientist", "student", "tech", "viewer"]).default("viewer"),
 	email: z.string().email("Invalid email address"),
 });
 
@@ -17,8 +17,8 @@ export const userCreateDto = userBaseDto.extend({
 /** = UserRead (UserBase + id + is_active + created_at) */
 export const userReadDto = userBaseDto.extend({
 	id: z.number().int(),
-	is_active: z.boolean(), // snake_case for API contract
-	createdAt: z.date().optional().nullable(), // snake_case for API contract
+	isActive: z.boolean(), // camelCase for API contract
+	createdAt: z.string().datetime().nullable(), // ISO string for API contract
 });
 
 /** = UserLogin */
