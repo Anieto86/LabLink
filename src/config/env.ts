@@ -26,6 +26,7 @@ const envSchema = z
 		DB_NAME: z.string().optional(),
 		// Security and authentication
 		SECRET_KEY: z.string().optional(), // JWT signing secret (can also use JWT_SECRET)
+		JWT_SECRET: z.string().optional(), // Alternative JWT signing secret for backward compatibility
 		ACCESS_TOKEN_EXPIRE_MINUTES: z.coerce.number().default(15), // JWT token expiration in minutes
 		GOOGLE_CLIENT_ID: z.string().optional(), // For Google OAuth integration
 		// Application configuration
@@ -61,7 +62,7 @@ const envSchema = z
 		}
 
 		// Validate JWT signing secret - accepts either SECRET_KEY or JWT_SECRET for flexibility
-		const hasSecret = Boolean(data.SECRET_KEY) || Boolean(process.env.JWT_SECRET);
+		const hasSecret = Boolean(data.SECRET_KEY) || Boolean(data.JWT_SECRET);
 		if (!hasSecret) {
 			ctx.addIssue({
 				code: z.ZodIssueCode.custom,

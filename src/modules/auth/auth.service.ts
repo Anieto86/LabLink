@@ -3,7 +3,11 @@ import { jwtVerify, SignJWT } from "jose";
 import { env } from "../../config/env.js";
 import { AuthRepo } from "./auth.repo.js";
 
-const SECRET = new TextEncoder().encode(env.SECRET_KEY ?? process.env.JWT_SECRET_DEFAULT);
+const secretSource = env.SECRET_KEY ?? env.JWT_SECRET;
+if (!secretSource) {
+	throw new Error("SECRET_KEY or JWT_SECRET must be provided for JWT signing");
+}
+const SECRET = new TextEncoder().encode(secretSource);
 const ALG = (env.JWT_ALG || "HS256") as "HS256" | "HS384" | "HS512";
 const ACCESS_TTL = env.JWT_EXPIRES || "10m";
 const REFRESH_TTL_MS = 1000 * 60 * 60 * 24 * 7; // 7d

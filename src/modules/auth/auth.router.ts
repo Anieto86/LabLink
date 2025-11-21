@@ -6,6 +6,8 @@ import { AuthService } from "./auth.service.js";
 
 export const authRouter: ExpressRouter = Router();
 
+const ALLOWED_ROLES = ["admin", "scientist", "student", "tech", "viewer"] as const;
+
 // POST /auth/register
 authRouter.post("/auth/register", async (req: Request, res: Response, next: NextFunction) => {
 	try {
@@ -18,7 +20,7 @@ authRouter.post("/auth/register", async (req: Request, res: Response, next: Next
 
 		const user = await AuthRepo.createUser({
 			name: data.name,
-			role: data.role,
+			role: ALLOWED_ROLES.includes(data.role) ? data.role : "viewer",
 			email: data.email,
 			passwordHash: await AuthService.hash(data.password),
 		});
