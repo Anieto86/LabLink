@@ -2,11 +2,10 @@ process.env.SECRET_KEY ??= "test-secret";
 process.env.DATABASE_URL ??= "postgresql://user:pass@localhost:5432/testdb";
 
 import request from "supertest";
-import { describe, expect, it, beforeEach, vi } from "vitest";
-import { AuthService } from "../../modules/auth/auth.service.js";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { UserRow } from "../../modules/users/users.mapper.js";
 
-const mockAuthRepo = {
+const mockAuthRepo = vi.hoisted(() => ({
 	findByEmail: vi.fn(),
 	findById: vi.fn(),
 	createUser: vi.fn(),
@@ -14,12 +13,13 @@ const mockAuthRepo = {
 	findRefreshToken: vi.fn(),
 	revokeRefreshToken: vi.fn(),
 	rotateRefreshToken: vi.fn(),
-};
+}));
 
 vi.mock("../../modules/auth/auth.repo.js", () => ({
 	AuthRepo: mockAuthRepo,
 }));
 
+const { AuthService } = await import("../../modules/auth/auth.service.js");
 const { app } = await import("../../app.js");
 
 describe("Auth routes", () => {
@@ -65,17 +65,33 @@ describe("Auth routes", () => {
 	it("POST /auth/refresh rejects invalid refresh token", async () => {
 		vi.spyOn(AuthService, "rotate").mockResolvedValue(null);
 		const res = await request(app).post("/auth/refresh").send({
-			refresh_token: "invalid-token",
+			refresh_token: "invalid-token-xxxxxxxxxxxx",
 		});
 		expect(res.status).toBe(401);
 	});
 
+	it("POST /auth/refresh returns new tokens when valid", async () => {
+		vi.spyOn(AuthService, "rotate").mockResolvedValue({
+			access_token: "new-access",
+			refresh_token: "new-refresh",
+		});
+		const res = await request(app).post("/auth/refresh").send({
+			refresh_token: "valid-token-xxxxxxxxxxxx",
+		});
+		expect(res.status).toBe(200);
+		expect(res.body).toEqual({
+			access_token: "new-access",
+			refresh_token: "new-refresh",
+		});
+	});
+
 	it("POST /auth/logout revokes token", async () => {
 		const revokeSpy = vi.spyOn(AuthService, "revoke").mockResolvedValue(undefined);
+		const token = "token-to-revoke-1234567890";
 		const res = await request(app).post("/auth/logout").send({
-			refresh_token: "token-to-revoke",
+			refresh_token: token,
 		});
 		expect(res.status).toBe(204);
-		expect(revokeSpy).toHaveBeenCalledWith("token-to-revoke");
+		expect(revokeSpy).toHaveBeenCalledWith(token);
 	});
 });
