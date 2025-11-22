@@ -47,18 +47,14 @@ describe("Protected routes (/users/me)", () => {
 
 	it("returns 401 when user is inactive", async () => {
 		mockUsersRepo.findById.mockResolvedValue({ ...baseUser, isActive: false });
-		const res = await request(app)
-			.get("/users/me")
-			.set("Authorization", "Bearer valid-token");
+		const res = await request(app).get("/users/me").set("Authorization", "Bearer valid-token");
 		expect(res.status).toBe(401);
 		expect(res.body.detail).toMatch(/not active/i);
 	});
 
 	it("returns user data when active", async () => {
 		mockUsersRepo.findById.mockResolvedValue(baseUser);
-		const res = await request(app)
-			.get("/users/me")
-			.set("Authorization", "Bearer valid-token");
+		const res = await request(app).get("/users/me").set("Authorization", "Bearer valid-token");
 		expect(res.status).toBe(200);
 		expect(res.body).toMatchObject({
 			id: baseUser.id,

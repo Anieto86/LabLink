@@ -5,6 +5,7 @@
 	"main": "dist/index.js",
 	"type": "module",
 	"scripts": {
+		"biome": "biome",
 		"test": "vitest run",
 		"dev": "tsx watch src/server.ts",
 		"build": "rimraf dist && tsc -p tsconfig.json",
