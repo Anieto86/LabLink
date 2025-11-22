@@ -7,14 +7,22 @@
 			"recommended": true,
 			"correctness": {
 				"noUnusedImports": "error",
-				"noUnusedVariables": "error"
+            "noUnusedVariables": "error",
+            "noConstantCondition": "error",
+            "useExhaustiveDependencies": "warn"
 			},
 			"style": {
 				"useImportType": "error",
-				"useExportType": "error"
+				"useExportType": "error",
+				"useConst": "error",
+				"useTemplate": "error",
+				"noNamespace": "error"
 			},
 			"suspicious": {
-				"noExplicitAny": "error"
+						"noExplicitAny": "error",
+            "noArrayIndexKey": "error",
+            "noDuplicateJsxProps": "error",
+            "noDebugger": "warn"
 			}
 		}
 	},
