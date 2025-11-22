@@ -1,6 +1,9 @@
+import { createHash } from "node:crypto";
 import { eq } from "drizzle-orm";
 import { db } from "../../infra/db/client.js";
 import { refreshTokens, users } from "../../infra/db/schema";
+
+const hashRefreshToken = (token: string) => createHash("sha256").update(token).digest("hex");
 
 export const AuthRepo = {
 	// Users
@@ -27,22 +30,28 @@ export const AuthRepo = {
 
 	// Refresh tokens (opaque)
 	insertRefreshToken: async (userId: number, token: string, expiresAt: Date) => {
+		const tokenHash = hashRefreshToken(token);
 		const [row] = await db
 			.insert(refreshTokens)
-			.values({ user_id: userId, token, expires_at: expiresAt })
+			.values({ user_id: userId, token: tokenHash, expires_at: expiresAt })
 			.returning();
 		return row;
 	},
 	findRefreshToken: async (token: string) => {
+		const tokenHash = hashRefreshToken(token);
 		const [row] = await db
 			.select()
 			.from(refreshTokens)
-			.where(eq(refreshTokens.token, token))
+			.where(eq(refreshTokens.token, tokenHash))
 			.limit(1);
 		return row ?? null;
 	},
 	revokeRefreshToken: async (token: string) => {
-		await db.update(refreshTokens).set({ is_revoked: true }).where(eq(refreshTokens.token, token));
+		const tokenHash = hashRefreshToken(token);
+		await db
+			.update(refreshTokens)
+			.set({ is_revoked: true })
+			.where(eq(refreshTokens.token, tokenHash));
 	},
 	rotateRefreshToken: async (prevToken: string, nextToken: string, nextExpiry: Date) => {
 		const prevRefreshToken = await AuthRepo.findRefreshToken(prevToken);
@@ -50,15 +59,18 @@ export const AuthRepo = {
 			throw new Error("Previous refresh token not found");
 		}
 
+		const prevHash = hashRefreshToken(prevToken);
+		const nextHash = hashRefreshToken(nextToken);
+
 		await db
 			.update(refreshTokens)
-			.set({ is_revoked: true, replaced_by_token: nextToken })
-			.where(eq(refreshTokens.token, prevToken));
+			.set({ is_revoked: true, replaced_by_token: nextHash })
+			.where(eq(refreshTokens.token, prevHash));
 		const [ins] = await db
 			.insert(refreshTokens)
 			.values({
 				user_id: prevRefreshToken.user_id,
-				token: nextToken,
+				token: nextHash,
 				expires_at: nextExpiry,
 			})
 			.returning();
