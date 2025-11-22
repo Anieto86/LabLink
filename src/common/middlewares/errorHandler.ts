@@ -1,6 +1,7 @@
 //Procesar y mapear excepciones a respuestas 4xx/5xx , No define tipos de error
 import type { ErrorRequestHandler } from "express";
 import { ZodError } from "zod";
+import { logger } from "../../config/logger.js";
 import { NotFoundError, UnauthorizedError, ValidationError } from "../http/errors.js";
 
 export const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
@@ -25,7 +26,7 @@ export const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
 	}
 
 	// 3) Fallas inesperadas
-	console.error(err);
+	logger.error({ err }, "Unhandled error");
 
 	return res.status(500).json({
 		detail: "Internal server error",
