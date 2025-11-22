@@ -14,6 +14,7 @@ import swaggerUi from "swagger-ui-express";
 import { errorHandler } from "./common/middlewares/errorHandler.js";
 import { authRouter } from "./modules/auth/auth.router";
 import { equipmentRouter } from "./modules/equipment/equipment.router";
+import { laboratoryRouter } from "./modules/laboratory/laboratory.router.js";
 import { usersRouter } from "./modules/users/users.router";
 
 // Load OpenAPI specification for Swagger UI documentation (supports src/ and dist/)
@@ -61,6 +62,7 @@ if (openApiSpec) {
 app.use(authRouter); // Authentication endpoints (/auth/*)
 app.use(usersRouter); // User management endpoints (/users/*)
 app.use(equipmentRouter); // Equipment management endpoints (/equipment/*)
+app.use(laboratoryRouter); // Laboratory management endpoints (/laboratories/*)
 app.use(errorHandler); // Global error handling middleware (must be last)
 
 // Health check endpoint - Used for monitoring and load balancer health checks

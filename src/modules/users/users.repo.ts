@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
-import { db } from "../../infra/db/client.js";
-import { users } from "../../infra/db/schema.js";
+import { db } from "../../infra/db/client";
+import { users } from "../../infra/db/schema";
 
 export const UsersRepo = {
 	findById: async (id: number) => {

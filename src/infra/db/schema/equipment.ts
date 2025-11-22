@@ -6,8 +6,8 @@ import { laboratories } from "./laboratories";
  * Equipment table - Manages laboratory equipment and instruments
  * Tracks equipment status, location, and maintenance information
  */
-export const equipment = pgTable(
-	"equipment",
+export const equipments = pgTable(
+	"equipments",
 	{
 		id: bigserial("id", { mode: "number" }).primaryKey(),
 		name: text("name").notNull(),
@@ -18,6 +18,6 @@ export const equipment = pgTable(
 		updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 	},
 	(table) => ({
-		labIdx: index("equipment_laboratory_id_idx").on(table.laboratoryId),
+		labIdx: index("equipments_laboratory_id_idx").on(table.laboratoryId),
 	})
 );

@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { db } from "../../infra/db/client.js";
-import { equipment } from "../../infra/db/schema.js";
+import { equipments } from "../../infra/db/schema.js";
 import type { EquipmentCreate } from "./equipment.dtos.js";
 import type { EquipmentRow } from "./equipment.mapper.js";
 
@@ -14,17 +14,20 @@ const statusToDb: Record<EquipmentCreate["status"], EquipmentRow["status"]> = {
 
 export const EquipmentRepo = {
 	findById: async (id: number): Promise<EquipmentRow | null> => {
-		const [row] = await db.select().from(equipment).where(eq(equipment.id, id)).limit(1);
+		const [row] = await db.select().from(equipments).where(eq(equipments.id, id)).limit(1);
 		return row ?? null;
 	},
 	findByLaboratoryId: async (laboratoryId: number): Promise<EquipmentRow[] | null> => {
-		const rows = await db.select().from(equipment).where(eq(equipment.laboratoryId, laboratoryId));
+		const rows = await db
+			.select()
+			.from(equipments)
+			.where(eq(equipments.laboratoryId, laboratoryId));
 		return rows.length > 0 ? rows : null;
 	},
 
 	create: async (data: EquipmentCreate): Promise<EquipmentRow> => {
 		const [row] = await db
-			.insert(equipment)
+			.insert(equipments)
 			.values({ ...data, status: statusToDb[data.status] })
 			.returning();
 		if (!row) {

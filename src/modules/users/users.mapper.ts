@@ -1,15 +1,8 @@
-// Approximate type of DB row (adjust if your schema changes)
-export type UserRow = {
-	id: number;
-	name: string;
-	role: "admin" | "scientist" | "student" | "tech" | "viewer" | null;
-	email: string;
-	passwordHash: string; // Drizzle maps to camelCase
-	isActive: boolean; // Drizzle maps to camelCase
-	createdAt?: Date | null; // Drizzle maps to camelCase
-};
+import type { InferSelectModel } from "drizzle-orm";
+import type { users } from "../../infra/db/schema/users.js";
 
-// DB row -> API UserRead (camelCase for API contract consistency)
+export type UserRow = InferSelectModel<typeof users>;
+
 export function toUserRead(u: UserRow) {
 	return {
 		id: u.id,
@@ -17,6 +10,6 @@ export function toUserRead(u: UserRow) {
 		role: u.role,
 		email: u.email,
 		isActive: u.isActive,
-		createdAt: u.createdAt ? u.createdAt.toISOString() : null,
+		createdAt: u.createdAt?.toISOString() ?? new Date().toISOString(),
 	};
 }
